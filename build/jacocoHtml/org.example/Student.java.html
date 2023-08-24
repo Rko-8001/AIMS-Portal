@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Student.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">midsem</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">Student.java</span></div><h1>Student.java</h1><pre class="source lang-java linenums">package org.example;
+import javax.swing.plaf.nimbus.State;
+import java.io.PrintStream;
+import java.sql.*;
+import java.util.stream.StreamSupport;
+
+public class Student {
+    String email;
+    Connection c;
+    PrintStream log;
+<span class="fc" id="L11">    public Student(String email, Connection c, PrintStream p) {</span>
+<span class="fc" id="L12">        this.email = email;</span>
+<span class="fc" id="L13">        this.c = c;</span>
+<span class="fc" id="L14">        this.log = p;</span>
+<span class="fc" id="L15">    }</span>
+
+    public void catalogView() throws SQLException {
+<span class="fc" id="L18">            Statement st = this.c.createStatement();</span>
+<span class="fc" id="L19">            String stview = &quot;SELECT * FROM course_catalogue;&quot;;</span>
+<span class="fc" id="L20">            ResultSet rs = st.executeQuery(stview);</span>
+
+<span class="fc" id="L22">            log.println(&quot;Here are the courses offered: &quot;);</span>
+<span class="fc" id="L23">            int i = 1;</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">            while (rs.next())</span>
+            {
+<span class="fc" id="L26">                String courseId = rs.getString(&quot;course_id&quot;);</span>
+<span class="fc" id="L27">                String name = rs.getString(&quot;name&quot;);</span>
+<span class="fc" id="L28">                int l = rs.getInt(&quot;lectures&quot;);</span>
+<span class="fc" id="L29">                int t = rs.getInt(&quot;tutorials&quot;);</span>
+<span class="fc" id="L30">                int p = rs.getInt(&quot;practice&quot;);</span>
+<span class="fc" id="L31">                float credit = rs.getFloat(&quot;credit&quot;);</span>
+<span class="fc" id="L32">                System.out.print(i + &quot; CourseId: &quot;+ courseId + &quot; Name: &quot; + name);</span>
+<span class="fc" id="L33">                System.out.println(&quot; L-T-P: &quot; + l + &quot;-&quot; + t + &quot;-&quot; + p + &quot; Total Credits: &quot; + credit);</span>
+<span class="fc" id="L34">                i++;</span>
+<span class="fc" id="L35">            }</span>
+
+<span class="fc" id="L37">    }</span>
+
+    public int courseOfferView() throws SQLException {
+<span class="fc" id="L40">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L41">        String rmc = &quot;SELECT * FROM course_offering;&quot;;</span>
+<span class="fc" id="L42">        ResultSet rs = st.executeQuery(rmc);</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        while (rs.next()) {</span>
+<span class="fc" id="L44">            String offering_id = rs.getString(&quot;offering_id&quot;);</span>
+<span class="fc" id="L45">            String course_id = rs.getString(&quot;course_id&quot;);</span>
+<span class="fc" id="L46">            String name = rs.getString(&quot;name&quot;);</span>
+<span class="fc" id="L47">            String instructor = rs.getString(&quot;instructor_id&quot;);</span>
+<span class="fc" id="L48">            int year = rs.getInt(&quot;year&quot;);</span>
+<span class="fc" id="L49">            int sem = rs.getInt(&quot;semester&quot;);</span>
+<span class="fc" id="L50">            String core = rs.getString(&quot;core&quot;);</span>
+<span class="fc" id="L51">            double credit = rs.getDouble(&quot;c&quot;);</span>
+<span class="fc" id="L52">            double cgpa = rs.getDouble(&quot;cgpa_req&quot;);</span>
+<span class="fc" id="L53">            int l = rs.getInt(&quot;l&quot;);</span>
+<span class="fc" id="L54">            int t = rs.getInt(&quot;t&quot;);</span>
+<span class="fc" id="L55">            int p = rs.getInt(&quot;p&quot;);</span>
+<span class="fc" id="L56">            String cgpar = String.valueOf(cgpa);</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">            if(cgpa &lt;= 0.0)</span>
+            {
+<span class="fc" id="L59">                cgpar = &quot;eligible&quot;;</span>
+            }
+<span class="fc" id="L61">            System.out.println(offering_id + &quot;) ID: &quot; + course_id + &quot; Name: &quot; + name + &quot; Offered by &quot; + instructor);</span>
+<span class="fc" id="L62">            System.out.println(sem + &quot;-&quot; + year + &quot;CGPA Req: &quot; + cgpar + &quot;Program Core for &quot; + core );</span>
+<span class="fc" id="L63">            System.out.println(&quot;Course Structure: &quot; + l + &quot;-&quot; + p + &quot;-&quot; + t + &quot;-&quot; + credit + &quot;\n&quot;);</span>
+<span class="fc" id="L64">        }</span>
+<span class="fc" id="L65">        return 1;</span>
+    }
+    public double credRegis(int sem, int year) throws SQLException {
+<span class="fc" id="L68">        double totalcred = 0.0;</span>
+<span class="fc" id="L69">        String cot = &quot;SELECT * FROM student_courses WHERE studentid = '&quot; + this.email + &quot;';&quot;;</span>
+<span class="fc" id="L70">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L71">        ResultSet rs = st.executeQuery(cot);</span>
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        while (rs.next())</span>
+        {
+<span class="fc" id="L75">            totalcred += rs.getDouble(&quot;credit&quot;);</span>
+        }
+<span class="fc" id="L77">        return totalcred;</span>
+    }
+    public  double prevCreds (int sem, int year) throws SQLException {
+<span class="fc" id="L80">        double creds = 0.0;</span>
+<span class="fc" id="L81">        String cdn = &quot;SELECT * FROM final_data WHERE studentid = '&quot; + this.email + &quot;' AND sem = &quot; + sem + &quot; AND year = &quot; + year + &quot;;&quot;;</span>
+<span class="fc" id="L82">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L83">        ResultSet rs = st.executeQuery(cdn);</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        while (rs.next())</span>
+        {
+<span class="fc" id="L86">            creds += rs.getDouble(&quot;credit&quot;);</span>
+        }
+<span class="fc" id="L88">        return 1.25*creds;</span>
+    }
+    public boolean creditlimit(int sem, int year, int offering_id) throws SQLException {
+
+<span class="fc" id="L92">        int ps = 1;</span>
+<span class="fc" id="L93">        int py = year;</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if(sem == 1)</span>
+        {
+<span class="fc" id="L96">            ps = 2;</span>
+<span class="fc" id="L97">            py = year - 1;</span>
+        }
+<span class="fc" id="L99">        double creds = credRegis(sem,year);</span>
+
+<span class="fc" id="L101">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L102">        ResultSet rs = st.executeQuery(&quot;SELECT * FROM course_offering WHERE offering_id = &quot; + offering_id + &quot;;&quot;);</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        while(rs.next())</span>
+        {
+<span class="fc" id="L105">            creds +=  rs.getDouble(&quot;c&quot;);</span>
+        }
+<span class="fc" id="L107">        double pcreds = prevCreds(ps,py);</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">        if(pcreds &lt; 15.0)</span>
+        {
+<span class="fc" id="L110">            pcreds = 15.0;</span>
+        }
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">        return creds &lt;= pcreds;</span>
+    }
+    public int courseOffered(String courseid, int sem, int year) throws SQLException {
+<span class="fc" id="L115">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L116">        String cot = &quot;SELECT * FROM course_offering WHERE course_id = '&quot; + courseid + &quot;' AND semester = &quot; + sem + &quot; AND year = &quot; + year + &quot;;&quot;;</span>
+<span class="fc" id="L117">        ResultSet rs = st.executeQuery(cot);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        return rs.next() ? rs.getInt(&quot;offering_id&quot;): -1;</span>
+    }
+    public boolean courseRegistered(String courseID) throws SQLException {
+<span class="fc" id="L121">            Statement st = this.c.createStatement();</span>
+<span class="fc" id="L122">            String crn = &quot;SELECT * FROM student_courses WHERE course_id = '&quot; + courseID + &quot;' AND studentid = '&quot; + this.email + &quot;';&quot;;</span>
+<span class="fc" id="L123">            ResultSet rs = st.executeQuery(crn);</span>
+<span class="fc" id="L124">        System.out.println(rs.next());</span>
+<span class="fc" id="L125">            return rs.next();</span>
+    }
+    public double getCgpa() throws SQLException {
+<span class="fc" id="L128">        double gpa = 0.0;</span>
+<span class="fc" id="L129">        int totalCreds = 0;</span>
+<span class="fc" id="L130">        String ggt = &quot;SELECT * FROM final_data WHERE studentid = '&quot; + this.email + &quot;';&quot;;</span>
+<span class="fc" id="L131">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L132">        ResultSet rs = st.executeQuery(ggt);</span>
+
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        while (rs.next())</span>
+        {
+<span class="fc" id="L136">            int grade = rs.getInt(&quot;grade&quot;);</span>
+<span class="fc" id="L137">            double cred = rs.getDouble(&quot;credit&quot;);</span>
+<span class="fc" id="L138">            gpa = cred*grade;</span>
+<span class="fc" id="L139">            totalCreds += cred;</span>
+<span class="fc" id="L140">        }</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        if(totalCreds == 0.0)</span>
+        {
+<span class="fc" id="L143">            return 0.0;</span>
+        }
+<span class="fc" id="L145">        gpa = gpa/totalCreds;</span>
+<span class="fc" id="L146">        return gpa;</span>
+    }
+    public boolean cgpaSatisfying(int offering_id) throws SQLException {
+<span class="fc" id="L149">        double gpa = getCgpa();</span>
+<span class="fc" id="L150">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L151">        String csn = &quot;SELECT * FROM course_offering WHERE offering_id = &quot; + offering_id + &quot;;&quot;;</span>
+<span class="fc" id="L152">        ResultSet rs = st.executeQuery(csn);</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">        if(rs.next())</span>
+        {
+<span class="fc" id="L155">            double cgpar = rs.getDouble(&quot;cgpa_req&quot;);</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">            return (cgpar &lt;= gpa);</span>
+        }
+<span class="nc" id="L158">        return false;</span>
+    }
+    public boolean courseDone(String courseid) throws SQLException {
+<span class="fc" id="L161">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L162">        String cdn = &quot;SELECT * FROM final_data WHERE course_id = '&quot; + courseid + &quot;' AND grade &gt;= 5;&quot;;</span>
+<span class="fc" id="L163">        ResultSet rs = st.executeQuery(cdn);</span>
+<span class="fc" id="L164">        return rs.next();</span>
+
+    }
+    public boolean prerequisiteDone(int offering_id)
+    {
+<span class="fc" id="L169">        String courseid = &quot;&quot;;</span>
+        try
+        {
+<span class="fc" id="L172">            Statement st = this.c.createStatement();</span>
+<span class="fc" id="L173">            String eci = &quot;SELECT * FROM course_offering WHERE offering_id = &quot; + offering_id + &quot;;&quot;;</span>
+<span class="fc" id="L174">            ResultSet rs = st.executeQuery(eci);</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">            if(rs.next())</span>
+            {
+<span class="fc" id="L177">                courseid = rs.getString(&quot;course_id&quot;);</span>
+            }
+<span class="fc" id="L179">            String epc = &quot;SELECT * FROM prerequisites WHERE course_id = '&quot; + courseid + &quot;';&quot;;</span>
+<span class="fc" id="L180">            rs = st.executeQuery(epc);</span>
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">            while (rs.next())</span>
+            {
+<span class="nc" id="L183">                String precourseid = rs.getString(&quot;prerequisite_id&quot;);</span>
+
+<span class="nc bnc" id="L185" title="All 2 branches missed.">                if(!courseDone(precourseid))</span>
+                {
+<span class="nc" id="L187">                    log.println(&quot;Prerequisite: &quot; + courseid + &quot; NOT DONE&quot;);</span>
+<span class="nc" id="L188">                    return false;</span>
+                }
+<span class="nc" id="L190">            }</span>
+<span class="fc" id="L191">            return true;</span>
+        }
+<span class="nc" id="L193">        catch (Exception e)</span>
+        {
+<span class="nc" id="L195">            System.out.println(e);</span>
+        }
+<span class="nc" id="L197">        return false;</span>
+    }
+    public boolean registerCourse(String courseID, int sem, int year) throws SQLException {
+<span class="fc" id="L200">        int offering_id = courseOffered(courseID, sem, year);</span>
+<span class="pc bpc" id="L201" title="4 of 10 branches missed.">        if(offering_id == -1 || courseRegistered(courseID) || !creditlimit(sem, year, offering_id) || !cgpaSatisfying(offering_id) || !prerequisiteDone(offering_id) )</span>
+        {
+<span class="fc" id="L203">            System.out.println(&quot;Course can't be registered.&quot;);</span>
+<span class="fc" id="L204">            return false;</span>
+        }
+<span class="fc" id="L206">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L207">        String fci = &quot;SELECT * FROM course_offering WHERE offering_id = &quot; + offering_id + &quot;;&quot;;</span>
+<span class="fc" id="L208">        ResultSet rs = st.executeQuery(fci);</span>
+<span class="fc" id="L209">        String courseid = &quot;&quot;, core = &quot;&quot;;</span>
+<span class="fc" id="L210">        double credit = 0.0;</span>
+<span class="fc bfc" id="L211" title="All 2 branches covered.">        while (rs.next())</span>
+        {
+<span class="fc" id="L213">            courseid = rs.getString(&quot;course_id&quot;);</span>
+<span class="fc" id="L214">            core = rs.getString(&quot;core&quot;);</span>
+<span class="fc" id="L215">            credit = rs.getDouble(&quot;c&quot;);</span>
+        }
+<span class="fc" id="L217">        String src = &quot;INSERT INTO student_courses VALUES ( '&quot; + this.email + &quot;', &quot; + offering_id + &quot;, '&quot; + courseid + &quot;', '&quot; + core + &quot;', -1, &quot; + credit + &quot; );&quot;;</span>
+
+<span class="fc" id="L219">        st.executeUpdate(src);</span>
+<span class="fc" id="L220">        System.out.println(&quot;Course Registered..&quot;);</span>
+<span class="fc" id="L221">        return true;</span>
+    }
+    public String studentdep() throws SQLException {
+<span class="fc" id="L224">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L225">        ResultSet rs = st.executeQuery(&quot;SELECT * FROM student WHERE email_id = '&quot; + this.email + &quot;';&quot; );</span>
+<span class="pc bpc" id="L226" title="1 of 2 branches missed.">        if(rs.next())</span>
+        {
+<span class="fc" id="L228">            return rs.getString(&quot;dept_name&quot;);</span>
+        }
+<span class="nc" id="L230">        return &quot;&quot;;</span>
+    }
+    public int viewRecord() throws SQLException {
+<span class="fc" id="L233">        String dep = studentdep();</span>
+<span class="fc" id="L234">        String vsr = &quot;SELECT * FROM final_data WHERE studentid = '&quot; + this.email + &quot;';&quot;;</span>
+<span class="fc" id="L235">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L236">        ResultSet rs = st.executeQuery(vsr);</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">        while (rs.next()) {</span>
+<span class="fc" id="L238">            String courseid = rs.getString(&quot;course_id&quot;);</span>
+<span class="fc" id="L239">            String core = rs.getString(&quot;core&quot;);</span>
+<span class="fc" id="L240">            int sem = rs.getInt(&quot;sem&quot;);</span>
+<span class="fc" id="L241">            int year = rs.getInt(&quot;year&quot;);</span>
+<span class="fc" id="L242">            int grade = rs.getInt(&quot;grade&quot;);</span>
+<span class="fc" id="L243">            double credit = rs.getDouble(&quot;credit&quot;);</span>
+
+<span class="fc" id="L245">            System.out.print(&quot;CourseID: &quot; + courseid + &quot; Grade: &quot; + grade + &quot; Credit: &quot; + credit);</span>
+<span class="fc" id="L246">            System.out.print(&quot; (&quot; + sem + &quot;-&quot; + year + &quot;) [&quot;);</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">            if (core.equals(dep)) {</span>
+<span class="fc" id="L248">                System.out.println(&quot; Program Core ]&quot;);</span>
+            }
+<span class="fc bfc" id="L250" title="All 2 branches covered.">            else if(core.equals(&quot;BTP&quot;))</span>
+            {
+<span class="fc" id="L252">                System.out.println(&quot; BTP ]&quot;);</span>
+            }
+            else {
+<span class="fc" id="L255">                System.out.println(&quot; Program Elective ]&quot;);</span>
+            }
+
+<span class="fc" id="L258">        }</span>
+<span class="fc" id="L259">        return 1;</span>
+    }
+    public boolean dropCourse(String courseid, int sem, int year) throws SQLException {
+<span class="fc" id="L262">        int offering_id = courseOffered(courseid, sem, year);</span>
+<span class="fc bfc" id="L263" title="All 2 branches covered.">        if(offering_id == -1)</span>
+        {
+<span class="fc" id="L265">            System.out.println(&quot;Course can't be dropped.&quot;);</span>
+<span class="fc" id="L266">            return false;</span>
+        }
+<span class="fc" id="L268">        String doc = &quot;DELETE FROM student_courses WHERE course_id = '&quot; + courseid + &quot;' AND studentid = '&quot; + this.email + &quot;';&quot;;</span>
+<span class="fc" id="L269">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L270">        st.executeUpdate(doc);</span>
+<span class="fc" id="L271">        return true;</span>
+    }
+    public int viewRegCourse(int sem, int year) throws SQLException {
+<span class="fc" id="L274">        String dep = studentdep();</span>
+<span class="fc" id="L275">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L276">        ResultSet rs = st.executeQuery(&quot;SELECT * FROM student_courses WHERE studentid = '&quot; + this.email + &quot;';&quot;);</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">        while(rs.next())</span>
+        {
+<span class="fc" id="L279">            String courseid = rs.getString(&quot;course_id&quot;);</span>
+<span class="fc" id="L280">            String core = rs.getString(&quot;core&quot;);</span>
+<span class="fc" id="L281">            double credit = rs.getDouble(&quot;credit&quot;);</span>
+<span class="fc" id="L282">            System.out.print(&quot;CourseID: &quot; + courseid + &quot; Credit: &quot; + credit + &quot;[ &quot;);</span>
+<span class="fc bfc" id="L283" title="All 2 branches covered.">            if (core.equals(dep)) {</span>
+<span class="fc" id="L284">                System.out.println(&quot; Program Core ]&quot;);</span>
+            }
+<span class="fc bfc" id="L286" title="All 2 branches covered.">            else if(core.equals(&quot;BTP&quot;))</span>
+            {
+<span class="fc" id="L288">                System.out.println(&quot; BTP ]&quot;);</span>
+            }
+            else {
+<span class="fc" id="L291">                System.out.println(&quot; Program Elective ]&quot;);</span>
+            }
+<span class="fc" id="L293">        }</span>
+<span class="fc" id="L294">        return 1;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

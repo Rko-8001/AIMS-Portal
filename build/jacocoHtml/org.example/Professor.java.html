@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Professor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">midsem</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">Professor.java</span></div><h1>Professor.java</h1><pre class="source lang-java linenums">package org.example;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Professor {
+    String email;
+    Connection c;
+    PrintStream log;
+
+<span class="fc" id="L20">    public Professor(String email, Connection cp, PrintStream lp) {</span>
+<span class="fc" id="L21">        this.email = email;</span>
+<span class="fc" id="L22">        this.c = cp;</span>
+<span class="fc" id="L23">        this.log = lp;</span>
+<span class="fc" id="L24">    }</span>
+
+    public void catalogView() throws SQLException {
+<span class="fc" id="L27">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L28">        String stview = &quot;SELECT * FROM course_catalogue;&quot;;</span>
+<span class="fc" id="L29">        ResultSet rs = st.executeQuery(stview);</span>
+<span class="fc" id="L30">        log.println(&quot;Here are the courses offered: &quot;);</span>
+<span class="fc" id="L31">        int i = 1;</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        while (rs.next()) {</span>
+<span class="fc" id="L33">            String courseId = rs.getString(&quot;course_id&quot;);</span>
+<span class="fc" id="L34">            String name = rs.getString(&quot;name&quot;);</span>
+<span class="fc" id="L35">            int l = rs.getInt(&quot;lectures&quot;);</span>
+<span class="fc" id="L36">            int t = rs.getInt(&quot;tutorials&quot;);</span>
+<span class="fc" id="L37">            int p = rs.getInt(&quot;practice&quot;);</span>
+<span class="fc" id="L38">            float credit = rs.getFloat(&quot;credit&quot;);</span>
+<span class="fc" id="L39">            log.print(i + &quot; CourseId: &quot; + courseId + &quot; Name: &quot; + name);</span>
+<span class="fc" id="L40">            log.println(&quot; L-T-P: &quot; + l + &quot;-&quot; + t + &quot;-&quot; + p + &quot; Total Credits: &quot; + credit);</span>
+<span class="fc" id="L41">            i++;</span>
+<span class="fc" id="L42">        }</span>
+
+<span class="fc" id="L44">    }</span>
+
+    public boolean findCourse(String course_id) throws SQLException {
+
+<span class="fc" id="L48">            Statement st = this.c.createStatement();</span>
+<span class="fc" id="L49">            String rmc = &quot;SELECT * FROM course_catalogue WHERE course_id = &quot; + &quot;'&quot; + course_id + &quot;';&quot;;</span>
+<span class="fc" id="L50">            ResultSet rs = st.executeQuery(rmc);</span>
+<span class="fc" id="L51">            return rs.next();</span>
+    }
+
+    public boolean alreadyOffered(String course_id, int sem, int year) throws SQLException {
+<span class="fc" id="L55">            Statement st = this.c.createStatement();</span>
+<span class="fc" id="L56">            String rmc = &quot;SELECT * FROM course_offering WHERE course_id = '&quot; + course_id + &quot;' AND semester = &quot; + sem + &quot; AND year = &quot; + year + &quot;;&quot;;</span>
+<span class="fc" id="L57">            ResultSet rs = st.executeQuery(rmc);</span>
+<span class="fc" id="L58">            return rs.next();</span>
+    }
+
+    public boolean offerCourse(double cgpa, String courseId, int sem, int year) throws SQLException {
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (!findCourse(courseId)) {</span>
+<span class="fc" id="L63">            log.println(&quot;Course not present in course catalog..&quot;);</span>
+<span class="fc" id="L64">            System.out.println(&quot;Course not present in course catalog..&quot;);</span>
+<span class="fc" id="L65">            return false;</span>
+        }
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (alreadyOffered(courseId, sem, year)) {</span>
+<span class="fc" id="L68">            log.println(&quot;Course already offered..&quot;);</span>
+<span class="fc" id="L69">            System.out.println(&quot;Course already offered..&quot;);</span>
+<span class="fc" id="L70">            return false;</span>
+        }
+<span class="fc" id="L72">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L73">        String gic = &quot;SELECT * FROM course_catalogue WHERE course_id = '&quot; + courseId + &quot;';&quot;;</span>
+<span class="fc" id="L74">        ResultSet rs = st.executeQuery(gic);</span>
+<span class="fc" id="L75">        String name = &quot;&quot;;</span>
+<span class="fc" id="L76">        String core = &quot;&quot;;</span>
+<span class="fc" id="L77">        int l = 0, p = 0, t = 0;</span>
+<span class="fc" id="L78">        double c = -1.0;</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        while (rs.next()) {</span>
+<span class="fc" id="L80">            name = rs.getString(&quot;name&quot;);</span>
+<span class="fc" id="L81">            core = rs.getString(&quot;core&quot;);</span>
+<span class="fc" id="L82">            l = rs.getInt(&quot;lectures&quot;);</span>
+<span class="fc" id="L83">            p = rs.getInt(&quot;practice&quot;);</span>
+<span class="fc" id="L84">            t = rs.getInt(&quot;tutorials&quot;);</span>
+<span class="fc" id="L85">            c = rs.getDouble(&quot;credit&quot;);</span>
+        }
+<span class="fc" id="L87">        String inc = &quot;INSERT INTO course_offering (course_id, name, year, semester, instructor_id, cgpa_req, core, l, p, t, c ) VALUES ( '&quot; + courseId + &quot;', '&quot; + name + &quot;', &quot; + year + &quot;, &quot; + sem + &quot;, '&quot; + this.email + &quot;', &quot; + cgpa + &quot;, '&quot; + core + &quot;', &quot; + l + &quot;,&quot; + p + &quot;, &quot; + t + &quot;, &quot; + c + &quot; );&quot;;</span>
+<span class="fc" id="L88">        int aou = st.executeUpdate(inc);</span>
+<span class="fc" id="L89">        System.out.println(&quot;Course Offered..&quot;);</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        return aou == 1;</span>
+    }
+
+    public int viewOfferCourse() throws SQLException {
+<span class="fc" id="L94">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L95">        String rmc = &quot;SELECT * FROM course_offering WHERE instructor_id = '&quot; + this.email + &quot;';&quot;;</span>
+<span class="fc" id="L96">        ResultSet rs = st.executeQuery(rmc);</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        while (rs.next()) {</span>
+<span class="fc" id="L98">            String offering_id = rs.getString(&quot;offering_id&quot;);</span>
+<span class="fc" id="L99">            String course_id = rs.getString(&quot;course_id&quot;);</span>
+<span class="fc" id="L100">            String name = rs.getString(&quot;name&quot;);</span>
+<span class="fc" id="L101">            log.println(offering_id + &quot;) ID: &quot; + course_id + &quot; Name: &quot; + name );</span>
+<span class="fc" id="L102">        }</span>
+<span class="fc" id="L103">        return 1;</span>
+    }
+    public String courseOffered(String courseid, int sem, int year) throws SQLException {
+
+<span class="fc" id="L107">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L108">        String cot = &quot;SELECT * FROM course_offering WHERE course_id = '&quot; + courseid + &quot;' AND semester = &quot; + sem + &quot; AND year = &quot; + year + &quot;;&quot;;</span>
+<span class="fc" id="L109">        ResultSet rs = st.executeQuery(cot);</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        return rs.next() ? rs.getString(&quot;instructor_id&quot;) : &quot; &quot;;</span>
+    }
+    public boolean removeCourse(String courseId, int sem, int year) throws SQLException {
+<span class="fc" id="L113">        String insid = courseOffered(courseId,sem, year);</span>
+<span class="fc" id="L114">        System.out.println(insid);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if(!insid.equals(this.email))</span>
+        {
+<span class="fc" id="L117">            System.out.println(&quot;You haven't offered this course.&quot;);</span>
+<span class="fc" id="L118">            return false;</span>
+        }
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">        if(!alreadyOffered(courseId, sem, year))</span>
+        {
+<span class="nc" id="L122">            System.out.println(&quot;Course not offered!!&quot;);</span>
+<span class="nc" id="L123">            return false;</span>
+        }
+<span class="fc" id="L125">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L126">        st.executeUpdate(&quot;DELETE FROM course_offering WHERE course_id = '&quot; + courseId + &quot;';&quot; );</span>
+<span class="fc" id="L127">        System.out.println(&quot;Course Removed..&quot;);</span>
+<span class="fc" id="L128">        return true;</span>
+    }
+    public int updateGrade(String path, String courseid, int sem, int year) throws IOException, CsvValidationException, SQLException {
+        //soon updating
+<span class="nc" id="L132">        FileReader filereader = new FileReader(path);</span>
+<span class="nc" id="L133">        CSVReader csvreader= new CSVReader(filereader);</span>
+        String[] nextrecord;
+
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        while((nextrecord=csvreader.readNext())!=null)</span>
+        {
+<span class="nc" id="L138">            String studentid = nextrecord[0];</span>
+<span class="nc" id="L139">            int grade = Integer.parseInt(nextrecord[1]);</span>
+<span class="nc" id="L140">            String fr = &quot;SELECT * from student_courses where course_id = '&quot; + courseid + &quot;' AND studentid = '&quot; + studentid + &quot;';&quot;;</span>
+<span class="nc" id="L141">            Statement st = this.c.createStatement();</span>
+<span class="nc" id="L142">            ResultSet rs = st.executeQuery(fr);</span>
+<span class="nc" id="L143">            String core = &quot;&quot;;</span>
+<span class="nc" id="L144">            double credit = 0.0;</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">            while (rs.next())</span>
+            {
+<span class="nc" id="L147">                core = rs.getString(&quot;core&quot;);</span>
+<span class="nc" id="L148">                credit = rs.getDouble(&quot;credit&quot;);</span>
+            }
+<span class="nc" id="L150">            st.executeUpdate(&quot;DELETE from student_courses where course_id = '&quot; + courseid + &quot;' AND studentid = '&quot; + studentid + &quot;';&quot;);</span>
+<span class="nc" id="L151">            st.executeUpdate(&quot;insert into final_data values ('&quot; + studentid + &quot;', '&quot; + courseid + &quot;', '&quot; + core + &quot;', &quot; + grade + &quot;, &quot; + credit + &quot;, &quot; + sem + &quot;, &quot; + year + &quot;);&quot;);</span>
+
+<span class="nc" id="L153">        }</span>
+<span class="nc" id="L154">        return 1;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

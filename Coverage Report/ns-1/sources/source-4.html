@@ -1,0 +1,190 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SystemServices</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example</a>
+</div>
+
+<h1>Coverage Summary for Class: SystemServices (org.example)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SystemServices</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (41/41)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example;
+&nbsp;
+&nbsp;import java.io.PrintStream;
+&nbsp;import java.sql.Connection;
+&nbsp;import java.sql.ResultSet;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.sql.Statement;
+&nbsp;
+&nbsp;public class SystemServices {
+&nbsp;    Connection c;
+&nbsp;    PrintStream p;
+&nbsp;
+&nbsp;    public  SystemServices (Connection c, PrintStream p)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.c =  c;</b>
+<b class="fc">&nbsp;        this.p = p;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;    public void updateStatus(String status) throws SQLException {
+<b class="fc">&nbsp;        String que = &quot;UPDATE systeminfo SET state = &#39;&quot; + status + &quot;&#39; where true;&quot;;</b>
+<b class="fc">&nbsp;        Statement st= this.c.createStatement();</b>
+<b class="fc">&nbsp;        st.executeUpdate(que);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;    public void changeSY(int sem, int year) throws SQLException {
+<b class="fc">&nbsp;        String que = &quot;UPDATE systeminfo SET sem = &quot; + sem + &quot;, year = &quot; + year + &quot; where true;&quot;;</b>
+<b class="fc">&nbsp;        Statement st= this.c.createStatement();</b>
+<b class="fc">&nbsp;        st.executeUpdate(que);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;    public int getsem() throws SQLException {
+<b class="fc">&nbsp;        String s = &quot;SELECT * FROM systeminfo;&quot;;</b>
+<b class="fc">&nbsp;        Statement st = this.c.createStatement();</b>
+<b class="fc">&nbsp;        ResultSet rs = st.executeQuery(s);</b>
+&nbsp;
+<b class="fc">&nbsp;        return rs.next() ? rs.getInt(&quot;sem&quot;) : -1;</b>
+&nbsp;    }
+&nbsp;    public int getyear() throws SQLException {
+<b class="fc">&nbsp;        String s = &quot;SELECT * FROM systeminfo;&quot;;</b>
+<b class="fc">&nbsp;        Statement st = this.c.createStatement();</b>
+<b class="fc">&nbsp;        ResultSet rs = st.executeQuery(s);</b>
+<b class="fc">&nbsp;        return rs.next() ? rs.getInt(&quot;year&quot;) : -1;</b>
+&nbsp;    }
+&nbsp;    public String getstatus() throws SQLException {
+<b class="fc">&nbsp;        String s = &quot;SELECT * FROM systeminfo;&quot;;</b>
+<b class="fc">&nbsp;        Statement st = this.c.createStatement();</b>
+<b class="fc">&nbsp;        ResultSet rs = st.executeQuery(s);</b>
+&nbsp;
+<b class="fc">&nbsp;        return rs.next()? rs.getString(&quot;state&quot;) : &quot;&quot;;</b>
+&nbsp;    }
+&nbsp;    public String nextPhase() throws SQLException {
+<b class="fc">&nbsp;        String now = getstatus();</b>
+<b class="fc">&nbsp;        switch (now) {</b>
+&nbsp;            case &quot;Academic Session&quot;:
+<b class="fc">&nbsp;                return &quot;Offer Courses&quot;;</b>
+&nbsp;            case &quot;Offer Courses&quot;:
+<b class="fc">&nbsp;                return &quot;Register courses&quot;;</b>
+&nbsp;            case &quot;Register courses&quot;:
+<b class="fc">&nbsp;                return &quot;Classes Start&quot;;</b>
+&nbsp;            case &quot;Classes Start&quot;:
+<b class="fc">&nbsp;                return &quot;Grade Submission&quot;;</b>
+&nbsp;            case &quot;Grade Submission&quot;:
+<b class="fc">&nbsp;                return &quot;Semester Ends&quot;;</b>
+&nbsp;            default:
+<b class="fc">&nbsp;                return &quot;Academic Session&quot;;</b>
+&nbsp;        }
+&nbsp;//        -- Types of Phase in a Semester
+&nbsp;//        -- Academic Session
+&nbsp;//        -- Offer Courses
+&nbsp;//        -- Register courses
+&nbsp;//        -- Classes Start
+&nbsp;//        -- Grade Submission
+&nbsp;//        -- Semester Ends
+&nbsp;    }
+&nbsp;    public String changeStatus() throws SQLException {
+<b class="fc">&nbsp;        String futu = nextPhase();</b>
+<b class="fc">&nbsp;        if (futu.equals(&quot;Academic Session&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int s = getsem();</b>
+<b class="fc">&nbsp;            int y = getyear();</b>
+<b class="fc">&nbsp;            if (s == 2) {</b>
+<b class="fc">&nbsp;                changeSY(1, y + 1);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                changeSY(2, y);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        updateStatus(futu);</b>
+<b class="fc">&nbsp;        return nextPhase();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-07 22:51</div>
+</div>
+</body>
+</html>

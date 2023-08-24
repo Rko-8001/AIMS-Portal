@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Login.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">midsem</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">Login.java</span></div><h1>Login.java</h1><pre class="source lang-java linenums">package org.example;
+
+import com.opencsv.exceptions.CsvValidationException;
+
+import javax.swing.plaf.nimbus.State;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class Login {
+    Connection c;
+    PrintStream p;
+
+    Scanner read;
+    public Login(Connection c, PrintStream p)
+<span class="nc" id="L20">    {</span>
+<span class="nc" id="L21">        this.p = p;</span>
+<span class="nc" id="L22">        this.c = c;</span>
+<span class="nc" id="L23">        this.read = new Scanner(System.in);</span>
+<span class="nc" id="L24">    }</span>
+    public void cls()
+    {
+<span class="nc" id="L27">        System.out.println(&quot;\033[H\033[2J&quot;);</span>
+<span class="nc" id="L28">    }</span>
+    public String check_regex(String option, String regex)
+    {
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        while(!option.matches(regex))</span>
+        {
+<span class="nc" id="L33">            System.out.println(&quot;Wrong Input! Enter Again. &quot;);</span>
+<span class="nc" id="L34">            System.out.println(&quot;\nInput: &quot;);</span>
+<span class="nc" id="L35">            option = read.next();</span>
+        }
+<span class="nc" id="L37">        return option;</span>
+    }
+    public void loginhome() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L40">        SystemServices systemServices = new SystemServices(c,p);</span>
+        while(true) {
+<span class="nc" id="L42">            System.out.println(&quot;Welcome to AIMS Portal..\n&quot;);</span>
+<span class="nc" id="L43">            System.out.println(&quot;\n&quot;);</span>
+
+<span class="nc" id="L45">            System.out.println(&quot;Press Corresponding number key for navigation: &quot;);</span>
+<span class="nc" id="L46">            System.out.println(&quot;[1]  LogIn as ADMIN&quot;);</span>
+<span class="nc" id="L47">            System.out.println(&quot;[2]  LogIn as Faculty&quot;);</span>
+<span class="nc" id="L48">            System.out.println(&quot;[3]  LogIn as Student&quot;);</span>
+
+<span class="nc" id="L50">            System.out.println(&quot;\n\n&quot;);</span>
+<span class="nc" id="L51">            System.out.println(&quot;Input: &quot;);</span>
+<span class="nc" id="L52">            String option = read.next();</span>
+<span class="nc" id="L53">            String fin_option = check_regex(option, &quot;[1-3]&quot;);</span>
+<span class="nc bnc" id="L54" title="All 4 branches missed.">            switch (fin_option) {</span>
+                case &quot;1&quot;:
+<span class="nc" id="L56">                    logAdmin();</span>
+<span class="nc" id="L57">                    break;</span>
+                case &quot;2&quot;:
+<span class="nc" id="L59">                    logProfessor();</span>
+<span class="nc" id="L60">                    break;</span>
+                case &quot;3&quot;:
+<span class="nc" id="L62">                    logStudent();</span>
+                    break;
+            }
+<span class="nc" id="L65">        }</span>
+    }
+    public  boolean check_user(String email, String pass, int role) throws SQLException {
+<span class="nc" id="L68">        Statement st = this.c.createStatement();</span>
+<span class="nc" id="L69">        String cul = &quot;SELECT * FROM users WHERE email = '&quot; + email + &quot;' AND password = '&quot; + pass + &quot;' AND role = &quot; + role + &quot;;&quot;;</span>
+<span class="nc" id="L70">        ResultSet rs = st.executeQuery(cul);</span>
+<span class="nc" id="L71">        return rs.next();</span>
+    }
+    public void logAdmin() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L74">        cls();</span>
+<span class="nc" id="L75">        System.out.println(&quot;Enter ADMIN Credentials..\n&quot;);</span>
+
+<span class="nc" id="L77">        System.out.print(&quot;Enter email: &quot;);</span>
+<span class="nc" id="L78">        String email = read.next();</span>
+<span class="nc" id="L79">        System.out.print(&quot;Enter Password: &quot;);</span>
+<span class="nc" id="L80">        String pass = read.next();</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (!check_user(email, pass, 0)) {</span>
+<span class="nc" id="L82">            System.out.println(&quot;Authentication Failed.. Try Again..&quot;);</span>
+<span class="nc" id="L83">            cls();</span>
+<span class="nc" id="L84">            loginhome();</span>
+        }
+<span class="nc" id="L86">        System.out.println(&quot;Login Success&quot;);</span>
+<span class="nc" id="L87">        AdminLogin adminLogin = new AdminLogin(email, pass, c, p);</span>
+<span class="nc" id="L88">        adminLogin.home();</span>
+<span class="nc" id="L89">    }</span>
+    public void logProfessor() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L91">        cls();</span>
+<span class="nc" id="L92">        System.out.println(&quot;Enter your Credentials..\n&quot;);</span>
+
+<span class="nc" id="L94">        System.out.print(&quot;Enter email: &quot;);</span>
+<span class="nc" id="L95">        String email = read.next();</span>
+<span class="nc" id="L96">        System.out.print(&quot;Enter Password: &quot;);</span>
+<span class="nc" id="L97">        String pass = read.next();</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (!check_user(email, pass, 1)) {</span>
+<span class="nc" id="L99">            System.out.println(&quot;Authentication Failed.. Try Again..&quot;);</span>
+<span class="nc" id="L100">            cls();</span>
+<span class="nc" id="L101">            loginhome();</span>
+        }
+<span class="nc" id="L103">        System.out.println(&quot;Login Success&quot;);</span>
+<span class="nc" id="L104">        ProfessorLogin professorLogin = new ProfessorLogin(email, pass, c, p);</span>
+<span class="nc" id="L105">        professorLogin.home();</span>
+<span class="nc" id="L106">    }</span>
+    public void logStudent() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L108">        cls();</span>
+<span class="nc" id="L109">        System.out.println(&quot;Enter your Credentials..\n&quot;);</span>
+
+<span class="nc" id="L111">        System.out.print(&quot;Enter email: &quot;);</span>
+<span class="nc" id="L112">        String email = read.next();</span>
+<span class="nc" id="L113">        System.out.print(&quot;Enter Password: &quot;);</span>
+<span class="nc" id="L114">        String pass = read.next();</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (!check_user(email, pass, 2)) {</span>
+<span class="nc" id="L116">            System.out.println(&quot;Authentication Failed.. Try Again..&quot;);</span>
+<span class="nc" id="L117">            cls();</span>
+<span class="nc" id="L118">            loginhome();</span>
+        }
+<span class="nc" id="L120">        System.out.println(&quot;Login Success&quot;);</span>
+<span class="nc" id="L121">        StudentLogin studentLogin = new StudentLogin(email,pass, c, p);</span>
+<span class="nc" id="L122">        studentLogin.home();</span>
+<span class="nc" id="L123">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

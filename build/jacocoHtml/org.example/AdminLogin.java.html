@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminLogin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">midsem</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">AdminLogin.java</span></div><h1>AdminLogin.java</h1><pre class="source lang-java linenums">package org.example;
+
+
+import com.opencsv.exceptions.CsvValidationException;
+
+import javax.crypto.spec.PSource;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.lang.management.ClassLoadingMXBean;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class AdminLogin {
+
+    String email;
+    String password;
+    Connection c;
+    PrintStream p;
+
+    Scanner read;
+    public AdminLogin (String email, String password, Connection c, PrintStream p)
+<span class="nc" id="L27">    {</span>
+<span class="nc" id="L28">        this.email = email;</span>
+<span class="nc" id="L29">        this.password = password;</span>
+<span class="nc" id="L30">        this.c = c;</span>
+<span class="nc" id="L31">        this.p = p;</span>
+<span class="nc" id="L32">        this.read = new Scanner(System.in);</span>
+<span class="nc" id="L33">    }</span>
+    public String check_regex(String option, String regex)
+    {
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        while(!option.matches(regex))</span>
+        {
+<span class="nc" id="L38">            System.out.println(&quot;Wrong Input! Enter Again. &quot;);</span>
+<span class="nc" id="L39">            System.out.println(&quot;\nInput: &quot;);</span>
+<span class="nc" id="L40">            option = read.next();</span>
+        }
+<span class="nc" id="L42">        return option;</span>
+    }
+    public void cls()
+    {
+<span class="nc" id="L46">        System.out.println(&quot;\033[H\033[2J&quot;);</span>
+<span class="nc" id="L47">    }</span>
+    public void home() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L49">        SystemServices systemServices = new SystemServices(c,p);</span>
+        while(true) {
+<span class="nc" id="L51">            System.out.println(&quot;Welcome, Logged In as: ADMIN&quot;);</span>
+<span class="nc" id="L52">            System.out.println(&quot;Current Status: &quot; + systemServices.getstatus());</span>
+<span class="nc" id="L53">            System.out.println(&quot;\n&quot;);</span>
+<span class="nc" id="L54">            System.out.println(&quot;Press Corresponding number key for navigation: &quot;);</span>
+<span class="nc" id="L55">            System.out.println(&quot;[A]  Change Sem Status: &quot; + systemServices.nextPhase());</span>
+<span class="nc" id="L56">            System.out.println(&quot;[1]  Add Student&quot;);</span>
+<span class="nc" id="L57">            System.out.println(&quot;[2]  Add Faculty&quot;);</span>
+<span class="nc" id="L58">            System.out.println(&quot;[3]  Add/Drop Course&quot;);</span>
+<span class="nc" id="L59">            System.out.println(&quot;[4]  View Students List&quot;);</span>
+<span class="nc" id="L60">            System.out.println(&quot;[5]  View Faculty List&quot;);</span>
+<span class="nc" id="L61">            System.out.println(&quot;[6]  View Course Catalogue&quot;);</span>
+<span class="nc" id="L62">            System.out.println(&quot;[7]  View Course Offerings&quot;);</span>
+<span class="nc" id="L63">            System.out.println(&quot;[8]  Degree Completion Check&quot;);</span>
+<span class="nc" id="L64">            System.out.println(&quot;[9]  View Student Record and Generate Transcript&quot;);</span>
+<span class="nc" id="L65">            System.out.println(&quot;[10] View Student Registrations&quot;);</span>
+<span class="nc" id="L66">            System.out.println(&quot;[11] View particular course Registrations&quot;);</span>
+<span class="nc" id="L67">            System.out.println(&quot;[12] Logout&quot;);</span>
+
+<span class="nc" id="L69">            System.out.println(&quot;\n\n&quot;);</span>
+<span class="nc" id="L70">            System.out.println(&quot;Input: &quot;);</span>
+<span class="nc" id="L71">            String option = read.next();</span>
+<span class="nc" id="L72">            String fin_option = check_regex(option, &quot;[1-9]|A|a|10|11|12&quot;);</span>
+<span class="nc bnc" id="L73" title="All 14 branches missed.">            switch (fin_option) {</span>
+                case &quot;1&quot;:
+<span class="nc" id="L75">                    addStudent();</span>
+<span class="nc" id="L76">                    break;</span>
+                case &quot;2&quot;:
+<span class="nc" id="L78">                    addProfessor();</span>
+<span class="nc" id="L79">                    break;</span>
+                case &quot;3&quot;:
+<span class="nc" id="L81">                    addDropCourse();</span>
+<span class="nc" id="L82">                    break;</span>
+                case &quot;4&quot;:
+<span class="nc" id="L84">                    showStudents();</span>
+<span class="nc" id="L85">                    break;</span>
+                case &quot;5&quot;:
+<span class="nc" id="L87">                    showProfessors();</span>
+<span class="nc" id="L88">                    break;</span>
+                case &quot;6&quot;:
+<span class="nc" id="L90">                    viewCourseCatalog();</span>
+<span class="nc" id="L91">                    break;</span>
+                case &quot;7&quot;:
+<span class="nc" id="L93">                    viewOfferCourse();</span>
+<span class="nc" id="L94">                    break;</span>
+                case &quot;8&quot;:
+                    //under work
+<span class="nc" id="L97">                    checkDegree();</span>
+<span class="nc" id="L98">                    break;</span>
+                case &quot;9&quot;:
+<span class="nc" id="L100">                    viewStudentRecord();</span>
+<span class="nc" id="L101">                    break;</span>
+                case &quot;10&quot;:
+<span class="nc" id="L103">                    viewStudentRegist();</span>
+<span class="nc" id="L104">                    break;</span>
+                case &quot;11&quot;:
+<span class="nc" id="L106">                    viewCourseRegist();</span>
+<span class="nc" id="L107">                    break;</span>
+                case &quot;12&quot;:
+<span class="nc" id="L109">                    logout();</span>
+<span class="nc" id="L110">                    return;</span>
+                case &quot;A&quot;:
+<span class="nc" id="L112">                    systemServices.changeStatus();</span>
+                    break;
+            }
+<span class="nc" id="L115">        }</span>
+    }
+    public void addStudent() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L118">        cls();</span>
+<span class="nc" id="L119">        SystemServices systemServices = new SystemServices(c, p);</span>
+<span class="nc" id="L120">        String state = systemServices.getstatus();</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if(state.equals(&quot;Academic Session&quot;)) {</span>
+<span class="nc" id="L122">            System.out.println(&quot;1. Add Student\n&quot;);</span>
+
+<span class="nc" id="L124">            System.out.println(&quot;[1] Add Student manually&quot;);</span>
+<span class="nc" id="L125">            System.out.println(&quot;[2] Add Student via .csv&quot;);</span>
+<span class="nc" id="L126">            System.out.println(&quot;Press any other key to exit..&quot;);</span>
+
+<span class="nc" id="L128">            System.out.println(&quot;\n\n&quot;);</span>
+<span class="nc" id="L129">            System.out.println(&quot;Input: &quot;);</span>
+<span class="nc" id="L130">            String option = read.next();</span>
+<span class="nc" id="L131">            Admin admin = new Admin(this.email, this.c, this.p);</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">            if (option.equals(&quot;1&quot;)) {</span>
+<span class="nc" id="L133">                cls();</span>
+<span class="nc" id="L134">                System.out.println(&quot;Adding Student Manually..\n&quot;);</span>
+<span class="nc" id="L135">                System.out.print(&quot;Enter name: &quot;);</span>
+<span class="nc" id="L136">                String name = read.next();</span>
+<span class="nc" id="L137">                System.out.print(&quot;Enter email: &quot;);</span>
+<span class="nc" id="L138">                String email = read.next();</span>
+<span class="nc" id="L139">                System.out.print(&quot;Enter entryNo: &quot;);</span>
+<span class="nc" id="L140">                String entryno = read.next();</span>
+<span class="nc" id="L141">                System.out.print(&quot;Enter Department: &quot;);</span>
+<span class="nc" id="L142">                String dept = read.next();</span>
+<span class="nc" id="L143">                System.out.print(&quot;Enter Batch: &quot;);</span>
+<span class="nc" id="L144">                int batch = read.nextInt();</span>
+                // add manually
+<span class="nc" id="L146">                admin.addStudent(email, name, entryno, dept, batch);</span>
+
+<span class="nc" id="L148">                System.out.println(&quot;Press any key to continue&quot;);</span>
+<span class="nc" id="L149">                read.next();</span>
+<span class="nc" id="L150">                cls();</span>
+
+<span class="nc bnc" id="L152" title="All 2 branches missed.">            } else if (option.equals(&quot;2&quot;)) {</span>
+                // add via csv file
+<span class="nc" id="L154">                cls();</span>
+<span class="nc" id="L155">                System.out.println(&quot;Adding Student via csv file..\n\n&quot;);</span>
+<span class="nc" id="L156">                System.out.print(&quot;Enter path: &quot;);</span>
+<span class="nc" id="L157">                String path = read.next();</span>
+<span class="nc" id="L158">                admin.addStudentscsv(path);</span>
+<span class="nc" id="L159">                System.out.println(&quot;\n\nStudent added via csv file..&quot;);</span>
+
+<span class="nc" id="L161">                System.out.println(&quot;Press any key to continue&quot;);</span>
+<span class="nc" id="L162">                read.next();</span>
+<span class="nc" id="L163">                cls();</span>
+//            /home/Yadwinder/IdeaProjects/midsem/src/log
+            }
+<span class="nc" id="L166">        }</span>
+        else {
+<span class="nc" id="L168">            System.out.println(&quot;Semester Phase doesn't permits.&quot;);</span>
+<span class="nc" id="L169">            System.out.println(&quot;Press any key to continue&quot;);</span>
+<span class="nc" id="L170">            read.next();</span>
+<span class="nc" id="L171">            cls();</span>
+        }
+<span class="nc" id="L173">        cls();</span>
+<span class="nc" id="L174">        home();</span>
+<span class="nc" id="L175">    }</span>
+    public void addProfessor() throws SQLException, CsvValidationException, IOException {
+
+<span class="nc" id="L178">        SystemServices systemServices = new SystemServices(c, p);</span>
+<span class="nc" id="L179">        String state = systemServices.getstatus();</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">        if(state.equals(&quot;Academic Session&quot;)) {</span>
+
+<span class="nc" id="L182">            cls();</span>
+<span class="nc" id="L183">            System.out.println(&quot;2. ADD Professor\n&quot;);</span>
+
+<span class="nc" id="L185">            System.out.println(&quot;[1] Add Professor manually&quot;);</span>
+<span class="nc" id="L186">            System.out.println(&quot;[2] Add Professor via .csv&quot;);</span>
+<span class="nc" id="L187">            System.out.println(&quot;Press any other key to exit..&quot;);</span>
+
+<span class="nc" id="L189">            System.out.println(&quot;\n\n&quot;);</span>
+<span class="nc" id="L190">            System.out.println(&quot;Input: &quot;);</span>
+<span class="nc" id="L191">            String option = read.next();</span>
+<span class="nc" id="L192">            Admin admin = new Admin(this.email, this.c, this.p);</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">            if (option.equals(&quot;1&quot;)) {</span>
+<span class="nc" id="L194">                cls();</span>
+<span class="nc" id="L195">                System.out.println(&quot;Adding Professor Manually..\n&quot;);</span>
+<span class="nc" id="L196">                System.out.print(&quot;Enter name: &quot;);</span>
+<span class="nc" id="L197">                String name = read.next();</span>
+<span class="nc" id="L198">                System.out.print(&quot;Enter email: &quot;);</span>
+<span class="nc" id="L199">                String email = read.next();</span>
+<span class="nc" id="L200">                System.out.print(&quot;Enter Department: &quot;);</span>
+<span class="nc" id="L201">                String dept = read.next();</span>
+                // add manually
+<span class="nc" id="L203">                admin.addProfessor(email, name, dept);</span>
+
+<span class="nc" id="L205">                System.out.println(&quot;Press any key to continue&quot;);</span>
+<span class="nc" id="L206">                read.next();</span>
+<span class="nc" id="L207">                cls();</span>
+
+<span class="nc bnc" id="L209" title="All 2 branches missed.">            } else if (option.equals(&quot;2&quot;)) {</span>
+                // add via csv file
+<span class="nc" id="L211">                cls();</span>
+<span class="nc" id="L212">                System.out.println(&quot;Adding Professor via csv file..\n&quot;);</span>
+<span class="nc" id="L213">                System.out.print(&quot;Enter path: &quot;);</span>
+<span class="nc" id="L214">                String path = read.next();</span>
+<span class="nc" id="L215">                admin.addProfessorcsv(path);</span>
+
+<span class="nc" id="L217">                System.out.println(&quot;\n\nProfessor added via csv file..&quot;);</span>
+
+<span class="nc" id="L219">                System.out.println(&quot;Press any key to continue&quot;);</span>
+<span class="nc" id="L220">                read.next();</span>
+<span class="nc" id="L221">                cls();</span>
+//            /home/Yadwinder/IdeaProjects/midsem/src/log
+            }
+<span class="nc" id="L224">        }</span>
+        else
+        {
+<span class="nc" id="L227">            System.out.println(&quot;Semester Phase doesn't permit.&quot;);</span>
+<span class="nc" id="L228">            System.out.println(&quot;Press any key to continue&quot;);</span>
+<span class="nc" id="L229">            read.next();</span>
+<span class="nc" id="L230">            cls();</span>
+        }
+<span class="nc" id="L232">        cls();</span>
+<span class="nc" id="L233">        home();</span>
+<span class="nc" id="L234">    }</span>
+    public void addDropCourse() throws SQLException, CsvValidationException, IOException {
+
+
+<span class="nc" id="L238">        SystemServices systemServices = new SystemServices(c, p);</span>
+<span class="nc" id="L239">        String state = systemServices.getstatus();</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">        if(state.equals(&quot;Academic Session&quot;)) {</span>
+
+<span class="nc" id="L242">            cls();</span>
+<span class="nc" id="L243">            System.out.println(&quot;3. Add/ Drop Course..&quot;);</span>
+<span class="nc" id="L244">            System.out.println(&quot;\n&quot;);</span>
+
+<span class="nc" id="L246">            System.out.println(&quot;[1] Add Course&quot;);</span>
+<span class="nc" id="L247">            System.out.println(&quot;[2] Remove Course&quot;);</span>
+<span class="nc" id="L248">            System.out.println(&quot;Press any other key to exit&quot;);</span>
+<span class="nc" id="L249">            System.out.println(&quot;\n\n&quot;);</span>
+
+<span class="nc" id="L251">            System.out.print(&quot;Input: &quot;);</span>
+<span class="nc" id="L252">            String option = read.next();</span>
+
+<span class="nc" id="L254">            Admin admin = new Admin(email, c, p);</span>
+<span class="nc bnc" id="L255" title="All 2 branches missed.">            if (option.equals(&quot;1&quot;)) {</span>
+                // add course
+<span class="nc" id="L257">                cls();</span>
+<span class="nc" id="L258">                System.out.println(&quot;Adding Course to catalog..\n&quot;);</span>
+<span class="nc" id="L259">                System.out.println(&quot;Enter Course ID: &quot;);</span>
+<span class="nc" id="L260">                String courseid = read.next();</span>
+<span class="nc" id="L261">                System.out.println(&quot;Enter Course name: &quot;);</span>
+<span class="nc" id="L262">                String coursename = read.next();</span>
+
+<span class="nc" id="L264">                System.out.print(&quot;Enter L-T-P-C separated by space: &quot;);</span>
+<span class="nc" id="L265">                int l = read.nextInt();</span>
+<span class="nc" id="L266">                int t = read.nextInt();</span>
+<span class="nc" id="L267">                int p = read.nextInt();</span>
+<span class="nc" id="L268">                double cre = read.nextDouble();</span>
+<span class="nc" id="L269">                System.out.print(&quot;Core for Which Department: &quot;);</span>
+<span class="nc" id="L270">                String core = read.next();</span>
+<span class="nc" id="L271">                admin.addCourse(courseid, coursename, l, t, p, cre, core);</span>
+
+<span class="nc" id="L273">                System.out.println(&quot;Press any key to continue&quot;);</span>
+<span class="nc" id="L274">                read.next();</span>
+<span class="nc" id="L275">                cls();</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">            } else if (option.equals(&quot;2&quot;)) {</span>
+<span class="nc" id="L277">                cls();</span>
+<span class="nc" id="L278">                System.out.println(&quot;Deleting course from catalog..\n&quot;);</span>
+<span class="nc" id="L279">                System.out.print(&quot;Enter Course Id to Delete: &quot;);</span>
+<span class="nc" id="L280">                String id = read.next();</span>
+<span class="nc" id="L281">                admin.removeCourse(id);</span>
+
+<span class="nc" id="L283">                System.out.println(&quot;Press any key to continue&quot;);</span>
+<span class="nc" id="L284">                read.next();</span>
+<span class="nc" id="L285">                cls();</span>
+            }
+<span class="nc" id="L287">        }</span>
+        else
+        {
+<span class="nc" id="L290">            System.out.println(&quot;Semester Phase doesn't perimit..&quot;);</span>
+<span class="nc" id="L291">            System.out.println(&quot;Press any key to continue&quot;);</span>
+<span class="nc" id="L292">            read.next();</span>
+<span class="nc" id="L293">            cls();</span>
+        }
+<span class="nc" id="L295">        cls();</span>
+<span class="nc" id="L296">        home();</span>
+
+<span class="nc" id="L298">    }</span>
+    public void showStudents() throws CsvValidationException, SQLException, IOException {
+<span class="nc" id="L300">        cls();</span>
+<span class="nc" id="L301">        Admin admin = new Admin(email, c, p);</span>
+<span class="nc" id="L302">        System.out.println(&quot;Students List: \n&quot;);</span>
+<span class="nc" id="L303">        admin.showStudents();</span>
+
+<span class="nc" id="L305">        System.out.println(&quot;Press any key to continue&quot;);</span>
+<span class="nc" id="L306">        read.next();</span>
+<span class="nc" id="L307">        cls();</span>
+<span class="nc" id="L308">        home();</span>
+<span class="nc" id="L309">    }</span>
+    public void showProfessors() throws CsvValidationException, SQLException, IOException {
+<span class="nc" id="L311">        cls();</span>
+<span class="nc" id="L312">        Admin admin = new Admin(email, c, p);</span>
+<span class="nc" id="L313">        System.out.println(&quot;Faculty List: \n\n&quot;);</span>
+<span class="nc" id="L314">        admin.showProfessors();</span>
+<span class="nc" id="L315">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L316">        read.next();</span>
+<span class="nc" id="L317">        cls();</span>
+<span class="nc" id="L318">        home();</span>
+<span class="nc" id="L319">    }</span>
+    public void viewCourseCatalog() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L321">        Admin admin = new Admin(email, c, p);</span>
+<span class="nc" id="L322">        System.out.println(&quot;Course Catalog: &quot;);</span>
+<span class="nc" id="L323">        admin.catalogView();</span>
+<span class="nc" id="L324">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L325">        read.next();</span>
+<span class="nc" id="L326">        cls();</span>
+<span class="nc" id="L327">        home();</span>
+<span class="nc" id="L328">    }</span>
+    public  void viewOfferCourse() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L330">        SystemServices systemServices = new SystemServices(c, p);</span>
+<span class="nc" id="L331">        String state = systemServices.getstatus();</span>
+<span class="nc bnc" id="L332" title="All 2 branches missed.">        if(state.equals(&quot;Offer Courses&quot;)) {</span>
+<span class="nc" id="L333">            cls();</span>
+<span class="nc" id="L334">            Admin admin = new Admin(this.email, this.c, this.p);</span>
+<span class="nc" id="L335">            admin.courseOfferView();</span>
+
+<span class="nc" id="L337">        }</span>
+        else
+        {
+<span class="nc" id="L340">            System.out.println(&quot;Can't view offered courses during offering.&quot;);</span>
+        }
+<span class="nc" id="L342">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L343">        read.next();</span>
+<span class="nc" id="L344">        cls();</span>
+<span class="nc" id="L345">        home();</span>
+<span class="nc" id="L346">    }</span>
+    public void viewStudentRecord() throws IOException, SQLException, CsvValidationException {
+<span class="nc" id="L348">        FileOutputStream abc= new FileOutputStream(&quot;/home/Yadwinder/IdeaProjects/midsem/src/log/transcript.txt&quot;);</span>
+<span class="nc" id="L349">        PrintStream tcp=new PrintStream(abc);</span>
+<span class="nc" id="L350">        System.out.print(&quot;Enter Student Email: &quot;);</span>
+<span class="nc" id="L351">        String id = read.next();</span>
+
+<span class="nc" id="L353">        Admin admin = new Admin(this.email, this.c , tcp);</span>
+
+<span class="nc" id="L355">        System.out.println(&quot;Here is &quot; + id + &quot; Data: &quot;);</span>
+<span class="nc" id="L356">        tcp.println(&quot;Here is &quot; + id + &quot; Data: &quot;);</span>
+<span class="nc" id="L357">        System.out.println(&quot;CGPA: &quot; + admin.getCgpa(id));</span>
+<span class="nc" id="L358">        tcp.println(&quot;CGPA: &quot; + admin.getCgpa(id));</span>
+
+<span class="nc" id="L360">        admin.viewStudentRecord(id);</span>
+<span class="nc" id="L361">        System.out.println(&quot;Transcript Generated.. Path: /home/Yadwinder/IdeaProjects/midsem/src/log/transcript.txt&quot;);</span>
+<span class="nc" id="L362">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L363">        read.next();</span>
+<span class="nc" id="L364">        cls();</span>
+<span class="nc" id="L365">        home();</span>
+<span class="nc" id="L366">    }</span>
+    public void viewStudentRegist() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L368">        Admin admin = new Admin(this.email, this.c , this.p);</span>
+<span class="nc" id="L369">        System.out.println(&quot;Enter Student ID: &quot;);</span>
+<span class="nc" id="L370">        String id = read.next();</span>
+<span class="nc" id="L371">        System.out.println(&quot;Here are all registration for this sem: &quot;);</span>
+<span class="nc" id="L372">        admin.viewStudentRegis(id);</span>
+<span class="nc" id="L373">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L374">        read.next();</span>
+<span class="nc" id="L375">        cls();</span>
+<span class="nc" id="L376">        home();</span>
+<span class="nc" id="L377">    }</span>
+    public void viewCourseRegist() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L379">        Admin admin = new Admin(this.email, this.c , this.p);</span>
+<span class="nc" id="L380">        System.out.println(&quot;Enter Course ID: &quot;);</span>
+<span class="nc" id="L381">        String id = read.next();</span>
+<span class="nc" id="L382">        System.out.println(&quot;Here are all registered Student this sem: &quot;);</span>
+<span class="nc" id="L383">        admin.viewCourseRegis(id);</span>
+<span class="nc" id="L384">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L385">        read.next();</span>
+<span class="nc" id="L386">        cls();</span>
+<span class="nc" id="L387">        home();</span>
+<span class="nc" id="L388">    }</span>
+
+    public void logout() throws CsvValidationException, SQLException, IOException {
+<span class="nc" id="L391">        Login login = new Login(c, p);</span>
+<span class="nc" id="L392">        login.loginhome();</span>
+<span class="nc" id="L393">    }</span>
+
+    public void checkDegree() throws CsvValidationException, SQLException, IOException {
+<span class="nc" id="L396">        Admin admin = new Admin(this.email, this.c , this.p);</span>
+<span class="nc" id="L397">        System.out.println(&quot;Enter Course ID: &quot;);</span>
+<span class="nc" id="L398">        String id = read.next();</span>
+<span class="nc bnc" id="L399" title="All 2 branches missed.">        if(admin.check_graduation(id))</span>
+        {
+<span class="nc" id="L401">            System.out.println(&quot;Student: &quot; + id + &quot; have met all condition is ready to graduate..&quot;);</span>
+        }
+        else
+        {
+<span class="nc" id="L405">            System.out.println(&quot;Student: &quot; + id + &quot; haven't met all condition is not ready to graduate..&quot;);</span>
+        }
+<span class="nc" id="L407">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L408">        read.next();</span>
+<span class="nc" id="L409">        cls();</span>
+<span class="nc" id="L410">        home();</span>
+<span class="nc" id="L411">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

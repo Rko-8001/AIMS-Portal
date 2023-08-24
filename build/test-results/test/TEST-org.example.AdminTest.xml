@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.AdminTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2023-03-07T17:20:05" hostname="rko-10" time="0.837">
+  <properties/>
+  <testcase name="addProfessorcsv()" classname="org.example.AdminTest" time="0.434"/>
+  <testcase name="addStudentscsv()" classname="org.example.AdminTest" time="0.072"/>
+  <testcase name="removeCourse()" classname="org.example.AdminTest" time="0.058"/>
+  <testcase name="catalogView()" classname="org.example.AdminTest" time="0.061"/>
+  <testcase name="viewStudentRegis()" classname="org.example.AdminTest" time="0.027"/>
+  <testcase name="addCourse()" classname="org.example.AdminTest" time="0.033"/>
+  <testcase name="getCgpa()" classname="org.example.AdminTest" time="0.021"/>
+  <testcase name="showProfessors()" classname="org.example.AdminTest" time="0.016"/>
+  <testcase name="viewCourseRegis()" classname="org.example.AdminTest" time="0.019"/>
+  <testcase name="viewStudentRecord()" classname="org.example.AdminTest" time="0.036"/>
+  <testcase name="showStudents()" classname="org.example.AdminTest" time="0.019"/>
+  <testcase name="courseOfferView()" classname="org.example.AdminTest" time="0.032"/>
+  <system-out><![CDATA[Professor PST1007 Added
+Professor Already Present..
+Student (2020TST1001@iitrpr.ac.in) already present..
+Student (2020TST1002@iitrpr.ac.in) already present..
+Student (2020TST1003@iitrpr.ac.in) already present..
+Student (2020TST1004@iitrpr.ac.in) already present..
+Student (2020TST1005@iitrpr.ac.in) already present..
+Student (2020TST1006@iitrpr.ac.in) already present..
+Student: 2020TST1007@iitrpr.ac.in added with password: 'iitrpr' (DEFAULT).
+Student (2020TST1008@iitrpr.ac.in) already present..
+Student (2020TST1009@iitrpr.ac.in) already present..
+Student (2020TST1010@iitrpr.ac.in) already present..
+Student (2020TST1011@iitrpr.ac.in) already present..
+Student (2020TST1012@iitrpr.ac.in) already present..
+Student (2020TST1013@iitrpr.ac.in) already present..
+Student (2020TST1014@iitrpr.ac.in) already present..
+Student (2020TST1015@iitrpr.ac.in) already present..
+Student (2020TST1016@iitrpr.ac.in) already present..
+Student (2020TST1017@iitrpr.ac.in) already present..
+Student (2020TST1018@iitrpr.ac.in) already present..
+Student (2020TST1019@iitrpr.ac.in) already present..
+Student (2020TST1020@iitrpr.ac.in) already present..
+
+Course you want to delete is not present in database..
+
+TS101 removed..
+1 CourseId: TS101 Name: Softie1 L-T-P: 3-1-3 Total Credits: 1.5
+2 CourseId: TS102 Name: Softie2 L-T-P: 3-1-3 Total Credits: 2.5
+3 CourseId: TS103 Name: Softie3 L-T-P: 3-1-3 Total Credits: 3.5
+4 CourseId: TS104 Name: Softie4 L-T-P: 3-1-3 Total Credits: 4.5
+5 CourseId: TS105 Name: Softie5 L-T-P: 3-1-3 Total Credits: 5.5
+6 CourseId: TS106 Name: Softie6 L-T-P: 3-1-3 Total Credits: 6.0
+7 CourseId: CS101 Name: 101 L-T-P: 3-2-1 Total Credits: 1.5
+8 CourseId: CS102 Name: 102 L-T-P: 3-3-1 Total Credits: 3.5
+CourseID: FS101 Credits: 3.5
+TS101 Added..
+Course Already present!! You can update it..
+TS101 removed..
+Name: prof@iitrpr.ac.in (Email: prof@iitrpr.ac.in || Dept: CSE ) 
+Name: bio@iitrpr.ac.in (Email: bio@iitrpr.ac.in || Dept: EE ) 
+Name: PST1008 (Email: 1008@iitrpr.ac.in || Dept: CE ) 
+StudentID: abc@iitrpr.ac.in
+Name: yadwinder	Email: 2020csb1143@iitrpr.ac.in (2020 ,CSE)
+Name: 2020TST1001@iitrpr.ac.in	Email: 2020TST1001@iitrpr.ac.in (2020 ,CSE)
+Name: TST1002	Email: 2020TST1002@iitrpr.ac.in (2020 ,CSE)
+Name: TST1003	Email: 2020TST1003@iitrpr.ac.in (2020 ,CSE)
+Name: TST1004	Email: 2020TST1004@iitrpr.ac.in (2020 ,CSE)
+Name: TST1005	Email: 2020TST1005@iitrpr.ac.in (2020 ,CSE)
+Name: TST1006	Email: 2020TST1006@iitrpr.ac.in (2020 ,CSE)
+Name: TST1008	Email: 2020TST1008@iitrpr.ac.in (2020 ,EE)
+Name: TST1009	Email: 2020TST1009@iitrpr.ac.in (2020 ,EE)
+Name: TST1010	Email: 2020TST1010@iitrpr.ac.in (2020 ,EE)
+Name: TST1011	Email: 2020TST1011@iitrpr.ac.in (2020 ,CH)
+Name: TST1012	Email: 2020TST1012@iitrpr.ac.in (2020 ,CH)
+Name: TST1013	Email: 2020TST1013@iitrpr.ac.in (2020 ,CH)
+Name: TST1014	Email: 2020TST1014@iitrpr.ac.in (2020 ,CH)
+Name: TST1015	Email: 2020TST1015@iitrpr.ac.in (2020 ,CH)
+Name: TST1016	Email: 2020TST1016@iitrpr.ac.in (2020 ,CH)
+Name: TST1017	Email: 2020TST1017@iitrpr.ac.in (2020 ,MNC)
+Name: TST1018	Email: 2020TST1018@iitrpr.ac.in (2020 ,MNC)
+Name: TST1019	Email: 2020TST1019@iitrpr.ac.in (2020 ,MNC)
+Name: TST1020	Email: 2020TST1020@iitrpr.ac.in (2020 ,MNC)
+94) ID: FS101 Name: FS Offered by ABC
+CGPA Req: Offered for All.Program Core for CSE
+Course Structure: 3-4-4-1.0
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

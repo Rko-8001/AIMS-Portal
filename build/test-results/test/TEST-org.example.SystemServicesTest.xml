@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.SystemServicesTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-03-07T17:20:06" hostname="rko-10" time="0.103">
+  <properties/>
+  <testcase name="changeStatus()" classname="org.example.SystemServicesTest" time="0.068"/>
+  <testcase name="getstatus()" classname="org.example.SystemServicesTest" time="0.033"/>
+  <system-out><![CDATA[Connected to Database..
+Connected to Database..
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

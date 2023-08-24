@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SystemServices.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">midsem</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">SystemServices.java</span></div><h1>SystemServices.java</h1><pre class="source lang-java linenums">package org.example;
+
+import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class SystemServices {
+    Connection c;
+    PrintStream p;
+
+    public  SystemServices (Connection c, PrintStream p)
+<span class="fc" id="L14">    {</span>
+<span class="fc" id="L15">        this.c =  c;</span>
+<span class="fc" id="L16">        this.p = p;</span>
+<span class="fc" id="L17">    }</span>
+    public void updateStatus(String status) throws SQLException {
+<span class="fc" id="L19">        String que = &quot;UPDATE systeminfo SET state = '&quot; + status + &quot;' where true;&quot;;</span>
+<span class="fc" id="L20">        Statement st= this.c.createStatement();</span>
+<span class="fc" id="L21">        st.executeUpdate(que);</span>
+<span class="fc" id="L22">    }</span>
+    public void changeSY(int sem, int year) throws SQLException {
+<span class="fc" id="L24">        String que = &quot;UPDATE systeminfo SET sem = &quot; + sem + &quot;, year = &quot; + year + &quot; where true;&quot;;</span>
+<span class="fc" id="L25">        Statement st= this.c.createStatement();</span>
+<span class="fc" id="L26">        st.executeUpdate(que);</span>
+<span class="fc" id="L27">    }</span>
+    public int getsem() throws SQLException {
+<span class="fc" id="L29">        String s = &quot;SELECT * FROM systeminfo;&quot;;</span>
+<span class="fc" id="L30">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L31">        ResultSet rs = st.executeQuery(s);</span>
+
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        return rs.next() ? rs.getInt(&quot;sem&quot;) : -1;</span>
+    }
+    public int getyear() throws SQLException {
+<span class="fc" id="L36">        String s = &quot;SELECT * FROM systeminfo;&quot;;</span>
+<span class="fc" id="L37">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L38">        ResultSet rs = st.executeQuery(s);</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        return rs.next() ? rs.getInt(&quot;year&quot;) : -1;</span>
+    }
+    public String getstatus() throws SQLException {
+<span class="fc" id="L42">        String s = &quot;SELECT * FROM systeminfo;&quot;;</span>
+<span class="fc" id="L43">        Statement st = this.c.createStatement();</span>
+<span class="fc" id="L44">        ResultSet rs = st.executeQuery(s);</span>
+
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        return rs.next()? rs.getString(&quot;state&quot;) : &quot;&quot;;</span>
+    }
+    public String nextPhase() throws SQLException {
+<span class="fc" id="L49">        String now = getstatus();</span>
+<span class="fc bfc" id="L50" title="All 6 branches covered.">        switch (now) {</span>
+            case &quot;Academic Session&quot;:
+<span class="fc" id="L52">                return &quot;Offer Courses&quot;;</span>
+            case &quot;Offer Courses&quot;:
+<span class="fc" id="L54">                return &quot;Register courses&quot;;</span>
+            case &quot;Register courses&quot;:
+<span class="fc" id="L56">                return &quot;Classes Start&quot;;</span>
+            case &quot;Classes Start&quot;:
+<span class="fc" id="L58">                return &quot;Grade Submission&quot;;</span>
+            case &quot;Grade Submission&quot;:
+<span class="fc" id="L60">                return &quot;Semester Ends&quot;;</span>
+            default:
+<span class="fc" id="L62">                return &quot;Academic Session&quot;;</span>
+        }
+//        -- Types of Phase in a Semester
+//        -- Academic Session
+//        -- Offer Courses
+//        -- Register courses
+//        -- Classes Start
+//        -- Grade Submission
+//        -- Semester Ends
+    }
+    public String changeStatus() throws SQLException {
+<span class="fc" id="L73">        String futu = nextPhase();</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (futu.equals(&quot;Academic Session&quot;))</span>
+        {
+<span class="fc" id="L76">            int s = getsem();</span>
+<span class="fc" id="L77">            int y = getyear();</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">            if (s == 2) {</span>
+<span class="fc" id="L79">                changeSY(1, y + 1);</span>
+            } else {
+<span class="fc" id="L81">                changeSY(2, y);</span>
+            }
+        }
+<span class="fc" id="L84">        updateStatus(futu);</span>
+<span class="fc" id="L85">        return nextPhase();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

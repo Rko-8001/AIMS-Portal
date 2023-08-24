@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProfessorLogin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">midsem</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">ProfessorLogin.java</span></div><h1>ProfessorLogin.java</h1><pre class="source lang-java linenums">package org.example;
+
+import com.opencsv.exceptions.CsvValidationException;
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class ProfessorLogin {
+    String email;
+    String password;
+    Connection c;
+    PrintStream p;
+
+    Scanner read;
+
+    public ProfessorLogin (String email, String password, Connection c, PrintStream p)
+<span class="nc" id="L21">    {</span>
+<span class="nc" id="L22">        this.email = email;</span>
+<span class="nc" id="L23">        this.password = password;</span>
+<span class="nc" id="L24">        this.c = c;</span>
+<span class="nc" id="L25">        this.p = p;</span>
+<span class="nc" id="L26">        this.read = new Scanner(System.in);</span>
+<span class="nc" id="L27">    }</span>
+    public void cls()
+    {
+<span class="nc" id="L30">        System.out.println(&quot;\033[H\033[2J&quot;);</span>
+<span class="nc" id="L31">    }</span>
+    public String check_regex(String option, String regex)
+    {
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        while(!option.matches(regex))</span>
+        {
+<span class="nc" id="L36">            System.out.println(&quot;Wrong Input! Enter Again. &quot;);</span>
+<span class="nc" id="L37">            System.out.println(&quot;\nInput: &quot;);</span>
+<span class="nc" id="L38">            option = read.next();</span>
+        }
+<span class="nc" id="L40">        return option;</span>
+    }
+    public void home() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L43">        SystemServices systemServices = new SystemServices(c,p);</span>
+        while(true) {
+<span class="nc" id="L45">            System.out.println(&quot;Welcome, Logged In as: &quot; + this.email);</span>
+<span class="nc" id="L46">            System.out.println(&quot;Current Status: &quot; + systemServices.getstatus());</span>
+<span class="nc" id="L47">            System.out.println(&quot;\n&quot;);</span>
+<span class="nc" id="L48">            System.out.println(&quot;Press Corresponding number key for navigation: &quot;);</span>
+<span class="nc" id="L49">            System.out.println(&quot;[1]  Offer Course&quot;);</span>
+<span class="nc" id="L50">            System.out.println(&quot;[2]  View My current Offerings&quot;);</span>
+<span class="nc" id="L51">            System.out.println(&quot;[3]  View All Offerings&quot;);</span>
+<span class="nc" id="L52">            System.out.println(&quot;[4]  Withdraw Course&quot;);</span>
+<span class="nc" id="L53">            System.out.println(&quot;[5]  Current Registrations in Course&quot;);</span>
+<span class="nc" id="L54">            System.out.println(&quot;[6]  Update Grade for course&quot;);</span>
+<span class="nc" id="L55">            System.out.println(&quot;[7]  View Course Catalog&quot;);</span>
+<span class="nc" id="L56">            System.out.println(&quot;[8]  Change Password&quot;);</span>
+<span class="nc" id="L57">            System.out.println(&quot;[9]  Logout&quot;);</span>
+
+<span class="nc" id="L59">            System.out.println(&quot;\n\n&quot;);</span>
+<span class="nc" id="L60">            System.out.println(&quot;Input: &quot;);</span>
+<span class="nc" id="L61">            String option = read.next();</span>
+<span class="nc" id="L62">            String fin_option = check_regex(option, &quot;[1-8]&quot;);</span>
+<span class="nc bnc" id="L63" title="All 10 branches missed.">            switch (fin_option) {</span>
+                case &quot;1&quot;:
+<span class="nc" id="L65">                    OfferCourse();</span>
+<span class="nc" id="L66">                    break;</span>
+                case &quot;2&quot;:
+<span class="nc" id="L68">                    viewOfferingmine();</span>
+<span class="nc" id="L69">                    break;</span>
+                case &quot;3&quot;:
+<span class="nc" id="L71">                    viewOfferCourse();</span>
+<span class="nc" id="L72">                    break;</span>
+                case &quot;4&quot;:
+<span class="nc" id="L74">                    withdrawCourse();</span>
+<span class="nc" id="L75">                    break;</span>
+                case &quot;5&quot;:
+<span class="nc" id="L77">                    viewCourseRegist();</span>
+<span class="nc" id="L78">                    break;</span>
+                case &quot;6&quot;:
+<span class="nc" id="L80">                    updateGrade();</span>
+<span class="nc" id="L81">                    break;</span>
+                case &quot;7&quot;:
+<span class="nc" id="L83">                    viewCatalog();</span>
+
+<span class="nc" id="L85">                    break;</span>
+                case &quot;8&quot;:
+<span class="nc" id="L87">                    changePass();</span>
+<span class="nc" id="L88">                    break;</span>
+                case &quot;9&quot;:
+<span class="nc" id="L90">                    logout();</span>
+                    break;
+            }
+<span class="nc" id="L93">        }</span>
+    }
+    public void OfferCourse() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L96">        SystemServices systemServices = new SystemServices(c, p);</span>
+<span class="nc" id="L97">        String state = systemServices.getstatus();</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if(state.equals(&quot;Offer Courses&quot;)) {</span>
+<span class="nc" id="L99">            System.out.println(&quot;Offering Course: \n&quot;);</span>
+<span class="nc" id="L100">            System.out.print(&quot;Enter Course ID: &quot;);</span>
+<span class="nc" id="L101">            String id = read.next();</span>
+<span class="nc" id="L102">            System.out.print(&quot;Enter min CGPA (enter 0 if open for all): &quot;);</span>
+<span class="nc" id="L103">            double cg = read.nextDouble();</span>
+<span class="nc" id="L104">            Professor professor = new Professor(this.email, this.c, this.p);</span>
+<span class="nc" id="L105">            professor.offerCourse(cg, id, systemServices.getsem(), systemServices.getyear());</span>
+<span class="nc" id="L106">        }</span>
+        else
+        {
+<span class="nc" id="L109">            System.out.println(&quot;Can't Offer course after/before Offering Period..&quot;);</span>
+
+        }
+<span class="nc" id="L112">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L113">        read.next();</span>
+<span class="nc" id="L114">        cls();</span>
+<span class="nc" id="L115">        home();</span>
+<span class="nc" id="L116">    }</span>
+    void viewOfferingmine() throws CsvValidationException, SQLException, IOException {
+<span class="nc" id="L118">        System.out.println(&quot;Offered Courses: \n&quot;);</span>
+<span class="nc" id="L119">        Professor professor = new Professor(email, c, p);</span>
+<span class="nc" id="L120">        professor.viewOfferCourse();</span>
+<span class="nc" id="L121">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L122">        read.next();</span>
+<span class="nc" id="L123">        cls();</span>
+<span class="nc" id="L124">        home();</span>
+<span class="nc" id="L125">    }</span>
+    public  void viewCatalog() throws CsvValidationException, SQLException, IOException {
+<span class="nc" id="L127">        System.out.println(&quot;Here is the catalog view: &quot;);</span>
+<span class="nc" id="L128">        Professor professor = new Professor(email,c, p);</span>
+<span class="nc" id="L129">        professor.catalogView();</span>
+<span class="nc" id="L130">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L131">        read.next();</span>
+<span class="nc" id="L132">        cls();</span>
+<span class="nc" id="L133">        home();</span>
+<span class="nc" id="L134">    }</span>
+    public  void viewOfferCourse() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L136">        cls();</span>
+<span class="nc" id="L137">        Admin admin = new Admin(this.email, this.c, this.p);</span>
+<span class="nc" id="L138">        admin.courseOfferView();</span>
+<span class="nc" id="L139">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L140">        read.next();</span>
+<span class="nc" id="L141">        cls();</span>
+<span class="nc" id="L142">        home();</span>
+<span class="nc" id="L143">    }</span>
+    public void viewCourseRegist() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L145">        Admin admin = new Admin(this.email, this.c , this.p);</span>
+<span class="nc" id="L146">        System.out.println(&quot;Enter Course ID: &quot;);</span>
+<span class="nc" id="L147">        String id = read.next();</span>
+<span class="nc" id="L148">        System.out.println(&quot;Here are all registered Student this sem: &quot;);</span>
+<span class="nc" id="L149">        admin.viewCourseRegis(id);</span>
+<span class="nc" id="L150">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L151">        read.next();</span>
+<span class="nc" id="L152">        cls();</span>
+<span class="nc" id="L153">        home();</span>
+<span class="nc" id="L154">    }</span>
+    public void withdrawCourse() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L156">        SystemServices systemServices = new SystemServices(c, p);</span>
+<span class="nc" id="L157">        String state = systemServices.getstatus();</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">        if(state.equals(&quot;Offer Courses&quot;)) {</span>
+<span class="nc" id="L159">            System.out.println(&quot;Withdrawing Course.\n&quot;);</span>
+<span class="nc" id="L160">            System.out.print(&quot;Enter Course ID you want to withdraw.: &quot;);</span>
+<span class="nc" id="L161">            String id = read.next();</span>
+<span class="nc" id="L162">            Professor professor = new Professor(email, c, p);</span>
+<span class="nc" id="L163">            professor.removeCourse(id, systemServices.getsem(), systemServices.getyear());</span>
+<span class="nc" id="L164">        }</span>
+        else
+        {
+<span class="nc" id="L167">            System.out.println(&quot;Can't remove offered course after/before Offering Period..&quot;);</span>
+        }
+<span class="nc" id="L169">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L170">        read.next();</span>
+<span class="nc" id="L171">        cls();</span>
+<span class="nc" id="L172">        home();</span>
+<span class="nc" id="L173">    }</span>
+    public void updateGrade() throws CsvValidationException, SQLException, IOException {
+        // under work
+<span class="nc" id="L176">        SystemServices systemServices = new SystemServices(c, p);</span>
+<span class="nc" id="L177">        String state = systemServices.getstatus();</span>
+<span class="nc" id="L178">        cls();</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        if(state.equals(&quot;Grade Submission&quot;)) {</span>
+<span class="nc" id="L180">            System.out.println(&quot;Update Grades..\n&quot;);</span>
+<span class="nc" id="L181">            System.out.print(&quot;Enter path of csv file : &quot;);</span>
+<span class="nc" id="L182">            String path = read.next();</span>
+<span class="nc" id="L183">            System.out.print(&quot;Enter Course id: &quot;);</span>
+<span class="nc" id="L184">            String id = read.next();</span>
+<span class="nc" id="L185">            Professor professor = new Professor(email, c, p);</span>
+<span class="nc" id="L186">            professor.updateGrade(path, id, systemServices.getsem(), systemServices.getyear());</span>
+<span class="nc" id="L187">        }</span>
+        else
+        {
+<span class="nc" id="L190">            System.out.println(&quot;You can't update grade in this phase: &quot; + state);</span>
+        }
+<span class="nc" id="L192">        System.out.println(&quot;\nPress any key to continue&quot;);</span>
+<span class="nc" id="L193">        read.next();</span>
+<span class="nc" id="L194">        cls();</span>
+<span class="nc" id="L195">        home();</span>
+<span class="nc" id="L196">    }</span>
+    public void changePass() throws SQLException, CsvValidationException, IOException {
+<span class="nc" id="L198">        cls();</span>
+<span class="nc" id="L199">        System.out.println(&quot;Change Password..\n&quot;);</span>
+
+<span class="nc" id="L201">        System.out.print(&quot;Enter Old Pass: &quot;);</span>
+<span class="nc" id="L202">        String oldpass = read.next();</span>
+<span class="nc" id="L203">        System.out.print(&quot;Enter New Pass: &quot;);</span>
+<span class="nc" id="L204">        String newpass = read.next();</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">        if(!oldpass.equals(this.password))</span>
+        {
+<span class="nc" id="L207">            System.out.println(&quot;Old Password incorrect&quot;);</span>
+        }
+        else
+        {
+<span class="nc" id="L211">            Statement st = this.c.createStatement();</span>
+<span class="nc" id="L212">            String cps = &quot;UPDATE users SET password = '&quot; + newpass + &quot;' WHERE email = '&quot; + this.email + &quot;';&quot;;</span>
+<span class="nc" id="L213">            st.executeUpdate(cps);</span>
+<span class="nc" id="L214">            this.password = newpass;</span>
+<span class="nc" id="L215">            System.out.println(&quot;Password Updated&quot;);</span>
+        }
+
+<span class="nc" id="L218">        System.out.println(&quot;Press any key to continue&quot;);</span>
+<span class="nc" id="L219">        read.nextLine();</span>
+<span class="nc" id="L220">        cls();</span>
+<span class="nc" id="L221">        home();</span>
+
+<span class="nc" id="L223">    }</span>
+    public void logout() throws CsvValidationException, SQLException, IOException {
+<span class="nc" id="L225">        Login login = new Login(c, p);</span>
+<span class="nc" id="L226">        login.loginhome();</span>
+<span class="nc" id="L227">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

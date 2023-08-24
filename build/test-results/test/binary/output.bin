@@ -1,0 +1,105 @@
+Professor PST1007 Added
+Professor Already Present..
+5Student (2020TST1001@iitrpr.ac.in) already present..
+5Student (2020TST1002@iitrpr.ac.in) already present..
+5Student (2020TST1003@iitrpr.ac.in) already present..
+5Student (2020TST1004@iitrpr.ac.in) already present..
+5Student (2020TST1005@iitrpr.ac.in) already present..
+5Student (2020TST1006@iitrpr.ac.in) already present..
+KStudent: 2020TST1007@iitrpr.ac.in added with password: 'iitrpr' (DEFAULT).
+5Student (2020TST1008@iitrpr.ac.in) already present..
+5Student (2020TST1009@iitrpr.ac.in) already present..
+5Student (2020TST1010@iitrpr.ac.in) already present..
+5Student (2020TST1011@iitrpr.ac.in) already present..
+5Student (2020TST1012@iitrpr.ac.in) already present..
+5Student (2020TST1013@iitrpr.ac.in) already present..
+5Student (2020TST1014@iitrpr.ac.in) already present..
+5Student (2020TST1015@iitrpr.ac.in) already present..
+5Student (2020TST1016@iitrpr.ac.in) already present..
+5Student (2020TST1017@iitrpr.ac.in) already present..
+5Student (2020TST1018@iitrpr.ac.in) already present..
+5Student (2020TST1019@iitrpr.ac.in) already present..
+5Student (2020TST1020@iitrpr.ac.in) already present..
+
+7Course you want to delete is not present in database..
+
+TS101 removed..
+@1 CourseId: TS101 Name: Softie1 L-T-P: 3-1-3 Total Credits: 1.5
+@2 CourseId: TS102 Name: Softie2 L-T-P: 3-1-3 Total Credits: 2.5
+@3 CourseId: TS103 Name: Softie3 L-T-P: 3-1-3 Total Credits: 3.5
+@4 CourseId: TS104 Name: Softie4 L-T-P: 3-1-3 Total Credits: 4.5
+@5 CourseId: TS105 Name: Softie5 L-T-P: 3-1-3 Total Credits: 5.5
+@6 CourseId: TS106 Name: Softie6 L-T-P: 3-1-3 Total Credits: 6.0
+<7 CourseId: CS101 Name: 101 L-T-P: 3-2-1 Total Credits: 1.5
+<8 CourseId: CS102 Name: 102 L-T-P: 3-3-1 Total Credits: 3.5
+CourseID: FS101 Credits: 3.5
+TS101 Added..
+-Course Already present!! You can update it..
+TS101 removed..
+	BName: prof@iitrpr.ac.in (Email: prof@iitrpr.ac.in || Dept: CSE ) 
+	?Name: bio@iitrpr.ac.in (Email: bio@iitrpr.ac.in || Dept: EE ) 
+	7Name: PST1008 (Email: 1008@iitrpr.ac.in || Dept: CE ) 
+
+StudentID: abc@iitrpr.ac.in
+<Name: yadwinder	Email: 2020csb1143@iitrpr.ac.in (2020 ,CSE)
+KName: 2020TST1001@iitrpr.ac.in	Email: 2020TST1001@iitrpr.ac.in (2020 ,CSE)
+:Name: TST1002	Email: 2020TST1002@iitrpr.ac.in (2020 ,CSE)
+:Name: TST1003	Email: 2020TST1003@iitrpr.ac.in (2020 ,CSE)
+:Name: TST1004	Email: 2020TST1004@iitrpr.ac.in (2020 ,CSE)
+:Name: TST1005	Email: 2020TST1005@iitrpr.ac.in (2020 ,CSE)
+:Name: TST1006	Email: 2020TST1006@iitrpr.ac.in (2020 ,CSE)
+9Name: TST1008	Email: 2020TST1008@iitrpr.ac.in (2020 ,EE)
+9Name: TST1009	Email: 2020TST1009@iitrpr.ac.in (2020 ,EE)
+9Name: TST1010	Email: 2020TST1010@iitrpr.ac.in (2020 ,EE)
+9Name: TST1011	Email: 2020TST1011@iitrpr.ac.in (2020 ,CH)
+9Name: TST1012	Email: 2020TST1012@iitrpr.ac.in (2020 ,CH)
+9Name: TST1013	Email: 2020TST1013@iitrpr.ac.in (2020 ,CH)
+9Name: TST1014	Email: 2020TST1014@iitrpr.ac.in (2020 ,CH)
+9Name: TST1015	Email: 2020TST1015@iitrpr.ac.in (2020 ,CH)
+9Name: TST1016	Email: 2020TST1016@iitrpr.ac.in (2020 ,CH)
+:Name: TST1017	Email: 2020TST1017@iitrpr.ac.in (2020 ,MNC)
+:Name: TST1018	Email: 2020TST1018@iitrpr.ac.in (2020 ,MNC)
+:Name: TST1019	Email: 2020TST1019@iitrpr.ac.in (2020 ,MNC)
+:Name: TST1020	Email: 2020TST1020@iitrpr.ac.in (2020 ,MNC)
+&94) ID: FS101 Name: FS Offered by ABC
+/CGPA Req: Offered for All.Program Core for CSE
+Course Structure: 3-4-4-1.0
+
+Course Offered..
+abc@iitrpr.ac.in
+Course Removed..
+ 
+!You haven't offered this course.
+abc
+!You haven't offered this course.
+'Course not present in course catalog..
+Course Offered..
+Course already offered..
+Course Offered..
+abc@iitrpr.ac.in
+Course Removed..
+?CourseID: CS101 Grade: 8 Credit: 3.0 (1-2020) [ Program Core ]
+CCourseID: CS201 Grade: 8 Credit: 3.0 (1-2020) [ Program Elective ]
+6CourseID: CS301 Grade: 8 Credit: 3.0 (1-2020) [ BTP ]
+-CourseID: FS101 Credit: 3.5[  Program Core ]
+$CourseID: FS102 Credit: 3.5[  BTP ]
+1CourseID: FS103 Credit: 3.5[  Program Elective ]
+@1 CourseId: TS101 Name: Softie1 L-T-P: 3-1-3 Total Credits: 1.5
+@2 CourseId: TS102 Name: Softie2 L-T-P: 3-1-3 Total Credits: 2.5
+@3 CourseId: TS103 Name: Softie3 L-T-P: 3-1-3 Total Credits: 3.5
+@4 CourseId: TS104 Name: Softie4 L-T-P: 3-1-3 Total Credits: 4.5
+@5 CourseId: TS105 Name: Softie5 L-T-P: 3-1-3 Total Credits: 5.5
+@6 CourseId: TS106 Name: Softie6 L-T-P: 3-1-3 Total Credits: 6.0
+<7 CourseId: CS101 Name: 101 L-T-P: 3-2-1 Total Credits: 1.5
+<8 CourseId: CS102 Name: 102 L-T-P: 3-3-1 Total Credits: 3.5
+Course can't be registered.
+false
+Course Registered..
+true
+!Course can't be dropped.
+#'103) ID: FS101 Name: FS Offered by ABC
+#-1-2020CGPA Req: eligibleProgram Core for CSE
+#Course Structure: 3-4-4-1.0
+#
+%$Connected to Database..
+%&Connected to Database..

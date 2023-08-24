@@ -1,0 +1,261 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Professor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example</a>
+</div>
+
+<h1>Coverage Summary for Class: Professor (org.example)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Professor</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.9%
+  </span>
+  <span class="absValue">
+    (8/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80.8%
+  </span>
+  <span class="absValue">
+    (80/99)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example;
+&nbsp;
+&nbsp;import com.opencsv.CSVReader;
+&nbsp;import com.opencsv.exceptions.CsvValidationException;
+&nbsp;
+&nbsp;import java.io.FileNotFoundException;
+&nbsp;import java.io.FileReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.PrintStream;
+&nbsp;import java.sql.Connection;
+&nbsp;import java.sql.ResultSet;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.sql.Statement;
+&nbsp;
+&nbsp;public class Professor {
+&nbsp;    String email;
+&nbsp;    Connection c;
+&nbsp;    PrintStream log;
+&nbsp;
+<b class="fc">&nbsp;    public Professor(String email, Connection cp, PrintStream lp) {</b>
+<b class="fc">&nbsp;        this.email = email;</b>
+<b class="fc">&nbsp;        this.c = cp;</b>
+<b class="fc">&nbsp;        this.log = lp;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    public void catalogView() throws SQLException {
+<b class="fc">&nbsp;        Statement st = this.c.createStatement();</b>
+<b class="fc">&nbsp;        String stview = &quot;SELECT * FROM course_catalogue;&quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs = st.executeQuery(stview);</b>
+<b class="fc">&nbsp;        log.println(&quot;Here are the courses offered: &quot;);</b>
+<b class="fc">&nbsp;        int i = 1;</b>
+<b class="fc">&nbsp;        while (rs.next()) {</b>
+<b class="fc">&nbsp;            String courseId = rs.getString(&quot;course_id&quot;);</b>
+<b class="fc">&nbsp;            String name = rs.getString(&quot;name&quot;);</b>
+<b class="fc">&nbsp;            int l = rs.getInt(&quot;lectures&quot;);</b>
+<b class="fc">&nbsp;            int t = rs.getInt(&quot;tutorials&quot;);</b>
+<b class="fc">&nbsp;            int p = rs.getInt(&quot;practice&quot;);</b>
+<b class="fc">&nbsp;            float credit = rs.getFloat(&quot;credit&quot;);</b>
+<b class="fc">&nbsp;            log.print(i + &quot; CourseId: &quot; + courseId + &quot; Name: &quot; + name);</b>
+<b class="fc">&nbsp;            log.println(&quot; L-T-P: &quot; + l + &quot;-&quot; + t + &quot;-&quot; + p + &quot; Total Credits: &quot; + credit);</b>
+<b class="fc">&nbsp;            i++;</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    public boolean findCourse(String course_id) throws SQLException {
+&nbsp;
+<b class="fc">&nbsp;            Statement st = this.c.createStatement();</b>
+<b class="fc">&nbsp;            String rmc = &quot;SELECT * FROM course_catalogue WHERE course_id = &quot; + &quot;&#39;&quot; + course_id + &quot;&#39;;&quot;;</b>
+<b class="fc">&nbsp;            ResultSet rs = st.executeQuery(rmc);</b>
+<b class="fc">&nbsp;            return rs.next();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean alreadyOffered(String course_id, int sem, int year) throws SQLException {
+<b class="fc">&nbsp;            Statement st = this.c.createStatement();</b>
+<b class="fc">&nbsp;            String rmc = &quot;SELECT * FROM course_offering WHERE course_id = &#39;&quot; + course_id + &quot;&#39; AND semester = &quot; + sem + &quot; AND year = &quot; + year + &quot;;&quot;;</b>
+<b class="fc">&nbsp;            ResultSet rs = st.executeQuery(rmc);</b>
+<b class="fc">&nbsp;            return rs.next();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean offerCourse(double cgpa, String courseId, int sem, int year) throws SQLException {
+<b class="fc">&nbsp;        if (!findCourse(courseId)) {</b>
+<b class="fc">&nbsp;            log.println(&quot;Course not present in course catalog..&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Course not present in course catalog..&quot;);</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (alreadyOffered(courseId, sem, year)) {</b>
+<b class="fc">&nbsp;            log.println(&quot;Course already offered..&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Course already offered..&quot;);</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Statement st = this.c.createStatement();</b>
+<b class="fc">&nbsp;        String gic = &quot;SELECT * FROM course_catalogue WHERE course_id = &#39;&quot; + courseId + &quot;&#39;;&quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs = st.executeQuery(gic);</b>
+<b class="fc">&nbsp;        String name = &quot;&quot;;</b>
+<b class="fc">&nbsp;        String core = &quot;&quot;;</b>
+<b class="fc">&nbsp;        int l = 0, p = 0, t = 0;</b>
+<b class="fc">&nbsp;        double c = -1.0;</b>
+<b class="fc">&nbsp;        while (rs.next()) {</b>
+<b class="fc">&nbsp;            name = rs.getString(&quot;name&quot;);</b>
+<b class="fc">&nbsp;            core = rs.getString(&quot;core&quot;);</b>
+<b class="fc">&nbsp;            l = rs.getInt(&quot;lectures&quot;);</b>
+<b class="fc">&nbsp;            p = rs.getInt(&quot;practice&quot;);</b>
+<b class="fc">&nbsp;            t = rs.getInt(&quot;tutorials&quot;);</b>
+<b class="fc">&nbsp;            c = rs.getDouble(&quot;credit&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String inc = &quot;INSERT INTO course_offering (course_id, name, year, semester, instructor_id, cgpa_req, core, l, p, t, c ) VALUES ( &#39;&quot; + courseId + &quot;&#39;, &#39;&quot; + name + &quot;&#39;, &quot; + year + &quot;, &quot; + sem + &quot;, &#39;&quot; + this.email + &quot;&#39;, &quot; + cgpa + &quot;, &#39;&quot; + core + &quot;&#39;, &quot; + l + &quot;,&quot; + p + &quot;, &quot; + t + &quot;, &quot; + c + &quot; );&quot;;</b>
+<b class="fc">&nbsp;        int aou = st.executeUpdate(inc);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Course Offered..&quot;);</b>
+<b class="fc">&nbsp;        return aou == 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int viewOfferCourse() throws SQLException {
+<b class="fc">&nbsp;        Statement st = this.c.createStatement();</b>
+<b class="fc">&nbsp;        String rmc = &quot;SELECT * FROM course_offering WHERE instructor_id = &#39;&quot; + this.email + &quot;&#39;;&quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs = st.executeQuery(rmc);</b>
+<b class="fc">&nbsp;        while (rs.next()) {</b>
+<b class="fc">&nbsp;            String offering_id = rs.getString(&quot;offering_id&quot;);</b>
+<b class="fc">&nbsp;            String course_id = rs.getString(&quot;course_id&quot;);</b>
+<b class="fc">&nbsp;            String name = rs.getString(&quot;name&quot;);</b>
+<b class="fc">&nbsp;            log.println(offering_id + &quot;) ID: &quot; + course_id + &quot; Name: &quot; + name );</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return 1;</b>
+&nbsp;    }
+&nbsp;    public String courseOffered(String courseid, int sem, int year) throws SQLException {
+&nbsp;
+<b class="fc">&nbsp;        Statement st = this.c.createStatement();</b>
+<b class="fc">&nbsp;        String cot = &quot;SELECT * FROM course_offering WHERE course_id = &#39;&quot; + courseid + &quot;&#39; AND semester = &quot; + sem + &quot; AND year = &quot; + year + &quot;;&quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs = st.executeQuery(cot);</b>
+<b class="fc">&nbsp;        return rs.next() ? rs.getString(&quot;instructor_id&quot;) : &quot; &quot;;</b>
+&nbsp;    }
+&nbsp;    public boolean removeCourse(String courseId, int sem, int year) throws SQLException {
+<b class="fc">&nbsp;        String insid = courseOffered(courseId,sem, year);</b>
+<b class="fc">&nbsp;        System.out.println(insid);</b>
+<b class="fc">&nbsp;        if(!insid.equals(this.email))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.println(&quot;You haven&#39;t offered this course.&quot;);</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(!alreadyOffered(courseId, sem, year))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            System.out.println(&quot;Course not offered!!&quot;);</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Statement st = this.c.createStatement();</b>
+<b class="fc">&nbsp;        st.executeUpdate(&quot;DELETE FROM course_offering WHERE course_id = &#39;&quot; + courseId + &quot;&#39;;&quot; );</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Course Removed..&quot;);</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;    public int updateGrade(String path, String courseid, int sem, int year) throws IOException, CsvValidationException, SQLException {
+&nbsp;        //soon updating
+<b class="nc">&nbsp;        FileReader filereader = new FileReader(path);</b>
+<b class="nc">&nbsp;        CSVReader csvreader= new CSVReader(filereader);</b>
+&nbsp;        String[] nextrecord;
+&nbsp;
+<b class="nc">&nbsp;        while((nextrecord=csvreader.readNext())!=null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            String studentid = nextrecord[0];</b>
+<b class="nc">&nbsp;            int grade = Integer.parseInt(nextrecord[1]);</b>
+<b class="nc">&nbsp;            String fr = &quot;SELECT * from student_courses where course_id = &#39;&quot; + courseid + &quot;&#39; AND studentid = &#39;&quot; + studentid + &quot;&#39;;&quot;;</b>
+<b class="nc">&nbsp;            Statement st = this.c.createStatement();</b>
+<b class="nc">&nbsp;            ResultSet rs = st.executeQuery(fr);</b>
+<b class="nc">&nbsp;            String core = &quot;&quot;;</b>
+<b class="nc">&nbsp;            double credit = 0.0;</b>
+<b class="nc">&nbsp;            while (rs.next())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                core = rs.getString(&quot;core&quot;);</b>
+<b class="nc">&nbsp;                credit = rs.getDouble(&quot;credit&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            st.executeUpdate(&quot;DELETE from student_courses where course_id = &#39;&quot; + courseid + &quot;&#39; AND studentid = &#39;&quot; + studentid + &quot;&#39;;&quot;);</b>
+<b class="nc">&nbsp;            st.executeUpdate(&quot;insert into final_data values (&#39;&quot; + studentid + &quot;&#39;, &#39;&quot; + courseid + &quot;&#39;, &#39;&quot; + core + &quot;&#39;, &quot; + grade + &quot;, &quot; + credit + &quot;, &quot; + sem + &quot;, &quot; + year + &quot;);&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-07 22:51</div>
+</div>
+</body>
+</html>

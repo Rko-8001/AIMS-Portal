@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.ProfessorTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2023-03-07T17:20:06" hostname="rko-10" time="0.17">
+  <properties/>
+  <testcase name="removeCourse()" classname="org.example.ProfessorTest" time="0.059"/>
+  <testcase name="catalogView()" classname="org.example.ProfessorTest" time="0.047"/>
+  <testcase name="updateGrade()" classname="org.example.ProfessorTest" time="0.001"/>
+  <testcase name="offerCourse()" classname="org.example.ProfessorTest" time="0.026"/>
+  <testcase name="courseOffered()" classname="org.example.ProfessorTest" time="0.001"/>
+  <testcase name="viewOfferCourse()" classname="org.example.ProfessorTest" time="0.033"/>
+  <system-out><![CDATA[Course Offered..
+abc@iitrpr.ac.in
+Course Removed..
+ 
+You haven't offered this course.
+abc
+You haven't offered this course.
+Course not present in course catalog..
+Course Offered..
+Course already offered..
+Course Offered..
+abc@iitrpr.ac.in
+Course Removed..
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

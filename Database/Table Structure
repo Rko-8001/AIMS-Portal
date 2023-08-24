@@ -1,0 +1,99 @@
+
+TABLES:
+users
+    email
+    name
+    entryno
+    mobileno
+    password
+    role
+    PRIMARY KEY (email)
+
+department
+  name
+  PRIMARY KEY (name)
+
+student
+    email_id
+    name
+    dept_name
+    batch
+    PRIMARY KEY (email_id)
+    dept_name REFERENCES department(name)
+
+course_catalogue
+    course_id
+    name
+    lectures
+    tutorials
+    practice
+    credit
+    core
+    PRIMARY KEY (course_id)
+
+prerequisites
+    course_id
+    prerequisite_id
+    course_id        REFERENCES course_catalogue(course_id)
+    prerequisite_id  REFERENCES course_catalogue(course_id)
+
+professor
+    email_id
+    name
+    dept_name
+
+    PRIMARY KEY (email_id),
+    dept_name REFERENCES department(name)
+
+course_offering
+    offering_id
+    course_id
+    name
+    year
+    semester
+    instructor_id
+    cgpa_req
+    core
+    l
+    t
+    p
+    c
+    PRIMARY KEY (offering_id)
+
+
+student_courses
+    studentid
+    offering_id
+    course_id
+    core
+    grade
+    credit
+    PRIMARY KEY (studentid, offering_id)
+
+final_data
+    studentid
+    course_id
+    core
+    grade
+    credit
+    sem
+    year
+
+systeminfo
+    state
+    sem
+    year
+    PRIMARY KEY (state)
+
+INSERT INTO systeminfo VALUES ('Academic Session Starts..', 1, 2020);
+
+
+TYPES of Department = [ 'CSE', 'EE', "MNC", 'CE', 'CH', 'ME', 'MMB' ]
+
+Total Phase in a Semester:
+    Academic Session
+    Offer Courses
+    Register courses
+    Classes Start
+    Grade Submission
+    Semester Ends

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SqlConnection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">midsem</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">SqlConnection.java</span></div><h1>SqlConnection.java</h1><pre class="source lang-java linenums">package org.example;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class SqlConnection {
+    Connection c;
+    public SqlConnection()
+<span class="nc" id="L9">    {</span>
+        try {
+<span class="nc" id="L11">            String url = &quot;jdbc:postgresql://localhost:5432/&quot;;</span>
+<span class="nc" id="L12">            String connectionusername = &quot;postgres&quot;;</span>
+<span class="nc" id="L13">            String connectionpassword = &quot;dbms&quot;;</span>
+<span class="nc" id="L14">            Class.forName(&quot;org.postgresql.Driver&quot;);</span>
+<span class="nc" id="L15">            c = DriverManager.getConnection(url, connectionusername, connectionpassword);</span>
+<span class="nc bnc" id="L16" title="All 2 branches missed.">            if (c == null)</span>
+            {
+<span class="nc" id="L18">                System.out.println(&quot;Connection Failed&quot;);</span>
+<span class="nc" id="L19">                return;</span>
+            }
+<span class="nc" id="L21">            System.out.println(&quot;Connected..&quot;);</span>
+        }
+<span class="nc" id="L23">        catch (Exception e)</span>
+        {
+            // TODO: handle exception
+<span class="nc" id="L26">            System.out.println(e);</span>
+<span class="nc" id="L27">        }</span>
+<span class="nc" id="L28">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
