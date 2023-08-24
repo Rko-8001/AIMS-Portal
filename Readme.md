@@ -1,4 +1,4 @@
-# `<b>`CS305 Software Engineering`</b>`
+# CS305 Software Engineering
 
 **Yadwinder Singh- 2020CSB1143**
 
