@@ -39,12 +39,12 @@
 * #### To Use the Portal
 
   1. Go in **_AIMS_Portal_CS305\src\main\java\org\CS305\Main.java_** and click on run
-  2. Use commands `</br>`
+  2. Use commands </br>
      `gradle run`
 * #### For Testing
 
-  1. Go in **_AIMS_Portal_CS305\src\test\java\users_** and click on run with code coverage `</br>`
-  2. Use commands `</br>`
+  1. Go in **_AIMS_Portal_CS305\src\test\java\users_** and click on run with code coverage </br>
+  2. Use commands </br>
      `gradle build jacocotestreport`
      `gradle run`
 
@@ -71,5 +71,4 @@
 * Database code is present in **_AIMS_Portal_CS305\\Database/database.sql_**
 * All UML diagrams are present in **_AIMS_Portal_CS305\Diagrams\_**
 * Code Coverage file will be present in **_AIMS_Portal_CS305\Jacoco Code Coverage Report\index.html_**
-* All csv files to update grades should be present in **_AIMS_Portal_CS305\Files\CSV Files_**
-* The generated transcripts will be present in **_AIMS_Portal_CS305\Files\Transcripts_**
+
